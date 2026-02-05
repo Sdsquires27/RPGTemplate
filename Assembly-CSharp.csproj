@@ -48,12 +48,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.9f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Input\IInputHandler.cs" />
-    <Compile Include="Assets\Scripts\ActorS\ActorScript.cs" />
-    <Compile Include="Assets\Scripts\ActorS\IPlayerInput.cs" />
-    <Compile Include="Assets\Scripts\Input\PlayerInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Actors\ActorScript.cs" />
+    <Compile Include="Assets\Scripts\Actors\Input\IInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Actors\Input\PlayerInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Actors\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\Services\GameServices.cs" />
-    <Compile Include="Assets\Scripts\ActorS\PlayerScript.cs" />
+    <Compile Include="Assets\Scripts\Actors\Input\IPlayerInput.cs" />
     <Compile Include="Assets\Scripts\Managers\GameBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>

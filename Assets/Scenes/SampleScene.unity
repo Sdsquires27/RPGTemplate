@@ -266,8 +266,8 @@ GameObject:
   m_Component:
   - component: {fileID: 600837133}
   - component: {fileID: 600837132}
-  - component: {fileID: 600837131}
   - component: {fileID: 600837130}
+  - component: {fileID: 600837134}
   m_Layer: 0
   m_Name: BasePlayer
   m_TagString: Untagged
@@ -302,25 +302,9 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: df70fa95-8a34-4494-b137-73ab6b9c7d37
+  m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &600837131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 600837129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c26072bee8fd24fa398e6eacd6026c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
-  moveSpeed: 5
-  health: 0
-  rb: {fileID: 0}
-  playerInput: {fileID: 0}
 --- !u!212 &600837132
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -394,6 +378,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600837134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600837129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfe5cb4e5c1bdf04d836a09c236ab5c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerScript
+  moveSpeed: 5
+  health: 100
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

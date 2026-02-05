@@ -9,4 +9,3 @@ public interface IInputHandler
     bool IsCrouchPressed();
     bool IsInteractPressed();
 }
-
