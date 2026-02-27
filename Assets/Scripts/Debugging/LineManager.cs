@@ -21,11 +21,17 @@ public class LineManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+
+
+    }
+
+    void onDraw()
+    {
         lineRendrer = gameObject.AddComponent<LineRenderer>();
         lineRendrer.positionCount = 7; // 6 corners + 1 to close the loop
         lineRendrer.widthMultiplier = 0.1f;
         lineRendrer.useWorldSpace = true;
-
         for (int i = 0; i < 7; i++)
         {
             lineRendrer.SetPosition(i, flatHexCorner(pos, size, i % 6));
