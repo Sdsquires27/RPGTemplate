@@ -3,23 +3,35 @@ using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour
 {
+
+    
     [Header("Hex Settings")]
     public GameObject hexPrefab;
     public float hexSize = 1f;
     public int gridRadius = 5;
+    [Header("Tile Palette")]
+    public GameObject[] tilePalette;
+    public int selectedTileIndex = 0;
 
     public Dictionary<Vector2Int, HexTile> hexTiles { get; private set; }
 
-    void Start()
-    {
-        hexTiles = new Dictionary<Vector2Int, HexTile>();
+void Start()
+{
+    hexTiles = new Dictionary<Vector2Int, HexTile>();
 
-        // Only auto-generate if no hexes were painted in the editor
-        if (transform.childCount == 0)
-            GenerateGrid();
-        else
-            LoadEditorPlacedHexes();
+    // Auto-calculate hexSize from the prefab's sprite
+    SpriteRenderer sr = hexPrefab.GetComponent<SpriteRenderer>();
+    if (sr != null && sr.sprite != null)
+    {
+        // Use .y because the sprite is rotated 90°, so y becomes the visual width
+        hexSize = sr.sprite.bounds.size.y / 2f;
+        Debug.Log($"Auto-calculated hexSize: {hexSize}");
     }
+    if (transform.childCount == 0)
+        GenerateGrid();
+    else
+        LoadEditorPlacedHexes();
+}
 
     // -------------------------------------------------------------------------
     // Grid Generation
@@ -72,8 +84,13 @@ public class HexGrid : MonoBehaviour
         if (hexTiles == null) hexTiles = new Dictionary<Vector2Int, HexTile>();
         if (hexTiles.ContainsKey(axial)) return;
 
+        // Use selected tile from palette instead of hexPrefab
+        GameObject prefab = tilePalette != null && tilePalette.Length > 0
+            ? tilePalette[selectedTileIndex]
+            : hexPrefab;
+
         Vector2 worldPos = hexToPixel(axial, hexSize);
-        GameObject go = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(hexPrefab, transform);
+        GameObject go = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab, transform);
         go.transform.position = new Vector3(worldPos.x, worldPos.y, 0);
 
         HexTile tile = go.GetComponent<HexTile>();
@@ -194,8 +211,9 @@ public class HexGrid : MonoBehaviour
 
     Vector2 hexToPixel(Vector2Int axial, float size)
     {
-        var x = (Mathf.Sqrt(3) * axial.x + Mathf.Sqrt(3) / 2f * axial.y) * size;
-        var y = (3f / 2f * axial.y) * size;
+        float overlap = 1.005f; // nudge tiles 0.5% closer together
+        var x = size * overlap * (3f / 2f * axial.x);
+        var y = size * overlap * (Mathf.Sqrt(3) / 2f * axial.x + Mathf.Sqrt(3) * axial.y);
         return new Vector2(x, y);
     }
 
@@ -209,10 +227,8 @@ public class HexGrid : MonoBehaviour
 
     Vector2Int pixelToAxial(Vector2 pixel, float size)
     {
-        var x = pixel.x / size;
-        var y = pixel.y / size;
-        var q = Mathf.Sqrt(3) / 3f * x - 1f / 3f * y;
-        var r = 2f / 3f * y;
+        var q = (2f / 3f * pixel.x) / size;
+        var r = (-1f / 3f * pixel.x + Mathf.Sqrt(3) / 3f * pixel.y) / size;
         return new Vector2Int(Mathf.RoundToInt(q), Mathf.RoundToInt(r));
     }
 

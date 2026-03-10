@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Editor\HexGridEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\HexTileImporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
