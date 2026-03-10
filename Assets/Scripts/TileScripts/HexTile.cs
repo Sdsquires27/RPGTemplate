@@ -3,10 +3,18 @@ using UnityEngine;
 public class HexTile : MonoBehaviour
 {
     public Hex hex { get; private set; }
+
+    public bool isWalkable { get; private set; }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
+    }
+
+    public void Init(Vector2Int axial)
+    {
+        hex = new Hex(axial);
     }
 
     // Update is called once per frame
@@ -17,6 +25,7 @@ public class HexTile : MonoBehaviour
 
     Vector3 flatHexCorner(Vector3 center, float size, int i)
     {
+        size *= 0.5f;
         float angle_deg = 60 * i;
         float angle_rad = Mathf.PI / 180 * angle_deg;
         return new Vector3(center.x + size * Mathf.Cos(angle_rad),

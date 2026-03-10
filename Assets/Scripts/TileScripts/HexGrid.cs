@@ -1,31 +1,140 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class HexGrid : MonoBehaviour
 {
-    public Dictionary<Vector2, HexTile> hexTiles  {get; private set;}
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Hex Settings")]
+    public GameObject hexPrefab;
+    public float hexSize = 1f;
+    public int gridRadius = 5;
+
+    public Dictionary<Vector2Int, HexTile> hexTiles { get; private set; }
+
     void Start()
     {
-        
+        hexTiles = new Dictionary<Vector2Int, HexTile>();
+
+        // Only auto-generate if no hexes were painted in the editor
+        if (transform.childCount == 0)
+            GenerateGrid();
+        else
+            LoadEditorPlacedHexes();
     }
 
-    // Update is called once per frame
-    void Update()
+    // -------------------------------------------------------------------------
+    // Grid Generation
+    // -------------------------------------------------------------------------
+
+    void GenerateGrid()
     {
-        
+        for (int q = -gridRadius; q <= gridRadius; q++)
+        {
+            int rMin = Mathf.Max(-gridRadius, -q - gridRadius);
+            int rMax = Mathf.Min(gridRadius, -q + gridRadius);
+            for (int r = rMin; r <= rMax; r++)
+            {
+                SpawnHex(new Vector2Int(q, r));
+            }
+        }
     }
 
-    #region HexMath
+    void SpawnHex(Vector2Int axial)
+    {
+        Vector2 worldPos = hexToPixel(axial, hexSize);
+        GameObject go = Instantiate(hexPrefab, new Vector3(worldPos.x, worldPos.y, 0), Quaternion.identity);
+        go.transform.parent = transform;
+
+        HexTile tile = go.GetComponent<HexTile>();
+        tile.Init(axial);
+        hexTiles[axial] = tile;
+    }
+
+    /// <summary>
+    /// When hexes were painted in the editor, register them into the dictionary at runtime.
+    /// </summary>
+    void LoadEditorPlacedHexes()
+    {
+        foreach (Transform child in transform)
+        {
+            HexTile tile = child.GetComponent<HexTile>();
+            if (tile != null)
+                hexTiles[tile.hex.axial] = tile;
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Editor Methods (called by HexGridEditor)
+    // -------------------------------------------------------------------------
+
+#if UNITY_EDITOR
+    public void EditorSpawnHex(Vector2Int axial)
+    {
+        if (hexTiles == null) hexTiles = new Dictionary<Vector2Int, HexTile>();
+        if (hexTiles.ContainsKey(axial)) return;
+
+        Vector2 worldPos = hexToPixel(axial, hexSize);
+        GameObject go = (GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(hexPrefab, transform);
+        go.transform.position = new Vector3(worldPos.x, worldPos.y, 0);
+
+        HexTile tile = go.GetComponent<HexTile>();
+        tile.Init(axial);
+        hexTiles[axial] = tile;
+
+        UnityEditor.EditorUtility.SetDirty(go);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+            UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene()
+        );
+    }
+
+    public void EditorRemoveHex(Vector2Int axial)
+    {
+        if (hexTiles == null || !hexTiles.ContainsKey(axial)) return;
+
+        GameObject go = hexTiles[axial].gameObject;
+        hexTiles.Remove(axial);
+        DestroyImmediate(go);
+
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+            UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene()
+        );
+    }
+
+    public void ClearAll()
+    {
+        if (hexTiles == null) return;
+        foreach (var tile in hexTiles.Values)
+            if (tile != null) DestroyImmediate(tile.gameObject);
+        hexTiles.Clear();
+
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+            UnityEditor.SceneManagement.EditorSceneManager.GetActiveScene()
+        );
+    }
+#endif
+
+    // -------------------------------------------------------------------------
+    // Public Wrappers (used by HexGridEditor)
+    // -------------------------------------------------------------------------
+
+    public Vector2 HexToPixelPublic(Vector2Int axial) => hexToPixel(axial, hexSize);
+    public Vector2Int PixelToAxialPublic(Vector2 pixel) => pixelToAxial(pixel, hexSize);
+
+    // -------------------------------------------------------------------------
+    // Hex Math
+    // -------------------------------------------------------------------------
+
+    #region BasicHexMath
+
     Hex axialSubtract(Hex a, Hex b)
     {
-        return new Hex(new Vector2(a.axial.x - b.axial.x, a.axial.y - b.axial.y));
+        return new Hex(new Vector2Int(a.axial.x - b.axial.x, a.axial.y - b.axial.y));
     }
+
     Hex axialAdd(Hex hex, Hex vec)
     {
-        return new Hex(new Vector2(hex.axial.x + vec.axial.x, hex.axial.y + vec.axial.y));
+        return new Hex(new Vector2Int(hex.axial.x + vec.axial.x, hex.axial.y + vec.axial.y));
     }
+
     int axialDistance(Hex a, Hex b)
     {
         Hex diff = axialSubtract(a, b);
@@ -37,39 +146,92 @@ public class HexGrid : MonoBehaviour
         return axialDistance(a.hex, b.hex);
     }
 
-    float findSCoordinate(Vector2 axial)
+    float findSCoordinate(Vector2Int axial)
     {
         return -axial.x - axial.y;
     }
+
     #endregion
 
+    // -------------------------------------------------------------------------
+    // Line Draw
+    // -------------------------------------------------------------------------
+
     #region LineDraw
+
     float lerp(float a, float b, float t)
     {
         return a + (b - a) * t;
     }
 
+
     Hex hexLerp(Hex a, Hex b, float t)
     {
-        return new Hex(new Vector2(lerp(a.axial.x, b.axial.x, t), lerp(a.axial.y, b.axial.y, t)));
+        return new Hex(new Vector2Int(
+            Mathf.RoundToInt(lerp(a.axial.x, b.axial.x, t)),
+            Mathf.RoundToInt(lerp(a.axial.y, b.axial.y, t))
+        ));
     }
 
     Hex[] hexLineDraw(Hex a, Hex b)
     {
         int N = axialDistance(a, b);
-        Hex[] results = new Hex[N + 2];
-        Hex aNudge = new Hex(new Vector2(a.axial.x + 0.000001f, a.axial.y + 0.000001f));
-        results[0] = aNudge;
+        Hex[] results = new Hex[N + 1];
         for (int i = 0; i <= N; i++)
         {
-            results[i] = hexLerp(a, b, 1f/N * i);
+            results[i] = hexLerp(a, b, 1f / N * i);
         }
         return results;
     }
+
     #endregion
 
+    // -------------------------------------------------------------------------
+    // Pixel <-> Hex Conversions
+    // -------------------------------------------------------------------------
+
+    #region PixelHexConversions
+
+    Vector2 hexToPixel(Vector2Int axial, float size)
+    {
+        var x = (Mathf.Sqrt(3) * axial.x + Mathf.Sqrt(3) / 2f * axial.y) * size;
+        var y = (3f / 2f * axial.y) * size;
+        return new Vector2(x, y);
+    }
+
+    // Kept for internal Hex struct usage
+    Vector2 hexToPixel(Hex hex, float size)
+    {
+        var x = (Mathf.Sqrt(3) * hex.q + Mathf.Sqrt(3) / 2f * hex.r) * size;
+        var y = (3f / 2f * hex.r) * size;
+        return new Vector2(x, y);
+    }
+
+    Vector2Int pixelToAxial(Vector2 pixel, float size)
+    {
+        var x = pixel.x / size;
+        var y = pixel.y / size;
+        var q = Mathf.Sqrt(3) / 3f * x - 1f / 3f * y;
+        var r = 2f / 3f * y;
+        return new Vector2Int(Mathf.RoundToInt(q), Mathf.RoundToInt(r));
+    }
+
+    HexTile pixelToHex(Vector2 pixel, float size)
+    {
+        Vector2Int axial = pixelToAxial(pixel, size);
+        hexTiles.TryGetValue(axial, out HexTile tile);
+        return tile;
+    }
+
+    #endregion
+
+    // -------------------------------------------------------------------------
+    // Other Hex Functions
+    // -------------------------------------------------------------------------
+
     #region OtherHexFunctions
-    Hex[] movementRange(Hex center, int range)
+
+    List<Hex> movementRange(Hex center, int range)
     {
         List<Hex> results = new List<Hex>();
         for (int q = -range; q <= range; q++)
@@ -78,12 +240,11 @@ public class HexGrid : MonoBehaviour
             int rMax = Mathf.Min(range, -q + range);
             for (int r = rMin; r <= rMax; r++)
             {
-                results.Add(axialAdd(center, new Hex(new Vector2(q, r))));
+                results.Add(axialAdd(center, new Hex(new Vector2Int(q, r))));
             }
         }
-        return results.ToArray();
+        return results;
     }
+
     #endregion
 }
-
-

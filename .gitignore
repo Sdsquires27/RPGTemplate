@@ -2,6 +2,8 @@
 #
 # Get latest from httpsgithub.comgithubgitignoreblobmainUnity.gitignore
 #
+/Assets/Sprites/KennyTiles/
+
 .utmp
 [Ll]ibrary
 [Tt]emp
@@ -54,6 +56,8 @@ ExportedObj
 .mdb
 .opendb
 .VC.db
+
+
 
 # Unity3D generated meta files
 .pidb.meta
