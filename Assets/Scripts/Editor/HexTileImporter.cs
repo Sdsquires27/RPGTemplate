@@ -14,7 +14,7 @@ public class HexTileImporter : AssetPostprocessor
 
         TextureImporter importer = (TextureImporter)assetImporter;
         importer.textureType = TextureImporterType.Sprite;
-        importer.filterMode = FilterMode.Bilinear; // or Trilinear for extra smoothness
+        importer.filterMode = FilterMode.Point; // or Trilinear for extra smoothness
         importer.mipmapEnabled = false; // mipmaps cause blurring on 2D sprites
         importer.textureCompression = TextureImporterCompression.Uncompressed; // prevents compression artifacts
 

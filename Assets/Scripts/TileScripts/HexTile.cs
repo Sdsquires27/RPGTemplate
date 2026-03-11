@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class HexTile : MonoBehaviour
 {
-    public Hex hex { get; private set; }
-
-    public bool isWalkable { get; private set; }
+    [SerializeField] private bool _isWalkable = true;
+    public bool isWalkable => _isWalkable;
 
     public int movementCost { get; private set; } = 1;
+    [SerializeField] private Hex _hex;
+    public Hex hex => _hex;
+
     public void Init(Vector2Int axial)
     {
-        hex = new Hex(axial);
+        _hex = new Hex(axial);
     }
 
 

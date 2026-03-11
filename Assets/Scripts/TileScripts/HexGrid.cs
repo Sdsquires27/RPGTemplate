@@ -272,7 +272,22 @@ void Start()
     // -------------------------------------------------------------------------
 
     #region OtherHexFunctions
+    public HexTile GetNearestTile(Vector3 worldPos)
+    {
+        HexTile nearest = null;
+        float nearestDist = float.MaxValue;
 
+        foreach (var tile in hexTiles.Values)
+        {
+            float dist = Vector3.Distance(worldPos, tile.transform.position);
+            if (dist < nearestDist)
+            {
+                nearestDist = dist;
+                nearest = tile;
+            }
+        }
+        return nearest;
+    }
     List<Hex> movementRange(Hex center, int range)
     {
         List<Hex> results = new List<Hex>();

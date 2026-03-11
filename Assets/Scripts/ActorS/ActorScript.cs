@@ -17,6 +17,7 @@ public abstract class ActorScript : MonoBehaviour
     protected HexTile targetTile;
     protected bool isMoving = false;
 
+
     protected Rigidbody2D rb;
     #endregion
 
@@ -25,8 +26,8 @@ public abstract class ActorScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         hexGrid = FindFirstObjectByType<HexGrid>();
 
-        // Snap to nearest tile on spawn
-        currentTile = hexGrid.GetTileAtWorldPos(transform.position);
+        // In ActorScript.Start()
+        currentTile = hexGrid.GetNearestTile(transform.position);
         if (currentTile != null)
             transform.position = currentTile.transform.position;
     }
