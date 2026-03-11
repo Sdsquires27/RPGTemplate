@@ -239,6 +239,32 @@ void Start()
         return tile;
     }
 
+    public HexTile GetTileAtWorldPos(Vector3 worldPos)
+    {
+        Vector2Int axial = pixelToAxial(worldPos, hexSize);
+        hexTiles.TryGetValue(axial, out HexTile tile);
+        return tile;
+    }
+
+    public List<HexTile> GetNeighbors(HexTile tile)
+    {
+        List<HexTile> neighbors = new List<HexTile>();
+        Vector2Int[] directions = new Vector2Int[]
+        {
+            new Vector2Int(1, 0),  new Vector2Int(-1, 0),
+            new Vector2Int(0, 1),  new Vector2Int(0, -1),
+            new Vector2Int(1, -1), new Vector2Int(-1, 1)
+        };
+
+        foreach (var dir in directions)
+        {
+            Vector2Int neighborAxial = tile.hex.axial + dir;
+            if (hexTiles.TryGetValue(neighborAxial, out HexTile neighbor))
+                neighbors.Add(neighbor);
+        }
+        return neighbors;
+    }
+
     #endregion
 
     // -------------------------------------------------------------------------
@@ -262,5 +288,10 @@ void Start()
         return results;
     }
 
+    public int GetDistance(HexTile a, HexTile b)
+    {
+        Vector2Int diff = a.hex.axial - b.hex.axial;
+        return (Mathf.Abs(diff.x) + Mathf.Abs(diff.y) + Mathf.Abs(diff.x + diff.y)) / 2;
+    }
     #endregion
 }

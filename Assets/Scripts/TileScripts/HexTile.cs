@@ -6,22 +6,12 @@ public class HexTile : MonoBehaviour
 
     public bool isWalkable { get; private set; }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
+    public int movementCost { get; private set; } = 1;
     public void Init(Vector2Int axial)
     {
         hex = new Hex(axial);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     Vector3 hexCorner(Vector3 center, float size, int i)
     {
