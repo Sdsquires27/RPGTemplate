@@ -15,23 +15,16 @@ public class HexGrid : MonoBehaviour
 
     public Dictionary<Vector2Int, HexTile> hexTiles { get; private set; }
 
-void Start()
-{
-    hexTiles = new Dictionary<Vector2Int, HexTile>();
-
-    // Auto-calculate hexSize from the prefab's sprite
-    SpriteRenderer sr = hexPrefab.GetComponent<SpriteRenderer>();
-    if (sr != null && sr.sprite != null)
+    void Start()
     {
-        // Use .y because the sprite is rotated 90°, so y becomes the visual width
-        hexSize = sr.sprite.bounds.size.y / 2f;
-        Debug.Log($"Auto-calculated hexSize: {hexSize}");
+        hexTiles = new Dictionary<Vector2Int, HexTile>();
+
+        if (transform.childCount == 0)
+            GenerateGrid();
+        else
+            LoadEditorPlacedHexes();
+        // No RepositionAllTiles
     }
-    if (transform.childCount == 0)
-        GenerateGrid();
-    else
-        LoadEditorPlacedHexes();
-}
 
     // -------------------------------------------------------------------------
     // Grid Generation
@@ -208,12 +201,18 @@ void Start()
     // -------------------------------------------------------------------------
 
     #region PixelHexConversions
-
+    public void CalculateHexSize()
+    {
+        SpriteRenderer sr = hexPrefab.GetComponent<SpriteRenderer>();
+        if (sr != null && sr.sprite != null)
+        {
+            hexSize = sr.sprite.bounds.size.x / Mathf.Sqrt(3f);
+        }
+    }
     Vector2 hexToPixel(Vector2Int axial, float size)
     {
-        float overlap = 1.005f; // nudge tiles 0.5% closer together
-        var x = size * overlap * (3f / 2f * axial.x);
-        var y = size * overlap * (Mathf.Sqrt(3) / 2f * axial.x + Mathf.Sqrt(3) * axial.y);
+        var x = size * (3f / 2f * axial.x);
+        var y = size * (Mathf.Sqrt(3f) / 2f * axial.x + Mathf.Sqrt(3f) * axial.y);
         return new Vector2(x, y);
     }
 

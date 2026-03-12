@@ -64,6 +64,7 @@ public override void OnInspectorGUI()
     private void OnSceneGUI()
     {
         if (!isPainting) return;
+        hexGrid.CalculateHexSize(); // ensure sizes are initialized in editor
 
         // Prevent scene from deselecting HexGrid when clicking
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));

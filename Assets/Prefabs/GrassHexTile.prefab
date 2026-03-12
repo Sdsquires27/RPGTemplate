@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bcb3a176a43ec4d8f570c23829ebe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HexTile
+  _isWalkable: 1
+  _hex:
+    axial: {x: 0, y: 0}
 --- !u!212 &8326533475797746636
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -116,3 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78bcb3a176a43ec4d8f570c23829ebe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HexTile
+  _isWalkable: 1
+  _hex:
+    axial: {x: 0, y: 0}
