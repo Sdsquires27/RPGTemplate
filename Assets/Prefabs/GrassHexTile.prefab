@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 735781435330588651}
   - component: {fileID: 8326533475797746636}
   - component: {fileID: -5263224771818946361}
+  - component: {fileID: -1140007619448467186}
   m_Layer: 0
   m_Name: GrassHexTile
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 45891c02a6d55b74e9dab3f0e55ea1fe, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -122,3 +123,17 @@ MonoBehaviour:
   _isWalkable: 1
   _hex:
     axial: {x: 0, y: 0}
+--- !u!114 &-1140007619448467186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4824804879175540274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7a8f213b89a2b246844c9cb8b31242a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteOutline
+  OutlineColor: {r: 0.09313632, g: 0.3886792, b: 0.21700357, a: 1}
+  OutlineThickness: 2

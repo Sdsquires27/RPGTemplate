@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Debugging\LineManager.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\ChaseAction.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\AIAction.cs" />
+    <Compile Include="Assets\Scripts\TileScripts\SpriteOutline.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\HexMovementComposite.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Goals\AIGoal.cs" />
     <Compile Include="Assets\Scripts\Services\GameServices.cs" />
@@ -83,7 +84,6 @@
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\aliens.xml" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\fullTiles.xml" />
     <None Include="Assets\Sprites\KennyTiles\License.txt" />
-    <None Include="Assets\Scripts\TileScripts\SpriteOutline.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheets\hexagonAll_sheet.xml" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\topTiles.xml" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheets\hexagonObjects_sheet.xml" />

@@ -28,8 +28,6 @@ public class PlayerScript : ActorScript
         // Enable the action map
         playerInput.actions.FindActionMap("Player").Enable();
 
-        if (playerInput == null) Debug.LogError("PlayerInput component not found on " + gameObject.name);
-        else Debug.Log("PlayerInput found, actions: " + playerInput.actions);
     }
 
     protected override void HandleMovement()
