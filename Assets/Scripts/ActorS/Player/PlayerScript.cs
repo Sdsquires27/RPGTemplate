@@ -41,6 +41,7 @@ public class PlayerScript : ActorScript
     void HandleDirectionalInput()
     {
         if (Time.time - lastInputTime < inputCooldown) return;
+        if (isMoving) return;
 
         Vector2 input = moveAction.ReadValue<Vector2>();
         if (input.magnitude < 0.5f) return;
@@ -76,39 +77,32 @@ public class PlayerScript : ActorScript
         currentPath.Clear();
     }
 
+    // Flat-top hex direction mapping
     void MoveInDirection(Vector2 input)
     {
-        if (currentTile == null)
-        {
-            Debug.LogError("currentTile is null — player not snapped to grid yet");
-            return;
-        }
-        float angle = Mathf.Atan2(input.y, input.x) * Mathf.Rad2Deg;
-        Vector2Int bestDir = GetHexDirectionFromAngle(angle);
-        Vector2Int targetAxial = currentTile.hex.axial + bestDir;
+        if (currentTile == null) return;
 
+        Vector2 normalized = input.normalized;
+        float x = Mathf.Round(normalized.x / 0.866f);
+        float y = Mathf.Round(normalized.y);
+
+        Vector2Int axialOffset;
+
+        if      (x ==  0 && y >  0) axialOffset = new Vector2Int( 0, -1);  // N  (W key)
+        else if (x >  0 && y > 0)
+            {
+                        Debug.Log($"SW branch hit — x:{x} y:{y} input:{input}");
+    axialOffset = new Vector2Int(-1, -1);  // NE (E key)
+            }  
+        else if (x >  0 && y <  0)  axialOffset = new Vector2Int(-1,  1);  // SE (D key)
+        else if (x ==  0 && y <  0) axialOffset = new Vector2Int( 0,  1);  // S  (S key)
+        else if (x <  0 && y <  0)  {axialOffset = new Vector2Int( 1,  0);}  // SW (A key)
+        else if (x <  0 && y >  0)  axialOffset = new Vector2Int( 1, -1);  // NW (Q key)
+        else return;
+
+        Vector2Int targetAxial = currentTile.hex.axial + axialOffset;
         if (hexGrid.hexTiles.TryGetValue(targetAxial, out HexTile tile) && tile.isWalkable)
             MoveToTile(tile);
-    }
-
-    // Flat-top hex direction mapping
-    private static readonly (Vector2Int dir, float min, float max)[] directionMap =
-    {
-        (new Vector2Int( 1,  0),   -30f,  30f),
-        (new Vector2Int( 1, -1),    30f,  90f),
-        (new Vector2Int( 0, -1),    90f, 150f),
-        (new Vector2Int(-1,  0),   150f, 180f),
-        (new Vector2Int(-1,  0),  -180f,-150f),
-        (new Vector2Int(-1,  1),  -150f, -90f),
-        (new Vector2Int( 0,  1),   -90f, -30f),
-    };
-
-    Vector2Int GetHexDirectionFromAngle(float angle)
-    {
-        foreach (var (dir, min, max) in directionMap)
-            if (angle >= min && angle < max)
-                return dir;
-        return new Vector2Int(1, 0);
     }
 
     protected override void HandleActions()

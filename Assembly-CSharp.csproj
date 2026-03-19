@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Debugging\LineManager.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\ChaseAction.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\AIAction.cs" />
+    <Compile Include="Assets\Scripts\Actors\Input\HexMovementComposite.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Goals\AIGoal.cs" />
     <Compile Include="Assets\Scripts\Services\GameServices.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\IPlayerInput.cs" />
