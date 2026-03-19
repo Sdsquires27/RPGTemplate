@@ -89,11 +89,7 @@ public class PlayerScript : ActorScript
         Vector2Int axialOffset;
 
         if      (x ==  0 && y >  0) axialOffset = new Vector2Int( 0, -1);  // N  (W key)
-        else if (x >  0 && y > 0)
-            {
-                        Debug.Log($"SW branch hit — x:{x} y:{y} input:{input}");
-    axialOffset = new Vector2Int(-1, -1);  // NE (E key)
-            }  
+        else if (x >  0 && y > 0) axialOffset = new Vector2Int(-1, 0);  // NE (E key)
         else if (x >  0 && y <  0)  axialOffset = new Vector2Int(-1,  1);  // SE (D key)
         else if (x ==  0 && y <  0) axialOffset = new Vector2Int( 0,  1);  // S  (S key)
         else if (x <  0 && y <  0)  {axialOffset = new Vector2Int( 1,  0);}  // SW (A key)
