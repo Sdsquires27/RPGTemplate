@@ -83,15 +83,16 @@ public class PlayerScript : ActorScript
         Vector2 normalized = input.normalized;
         float x = Mathf.Round(normalized.x / 0.866f);
         float y = Mathf.Round(normalized.y);
+        Debug.Log("Vector 2 normalized x: " + x + "y: " + y);
 
         Vector2Int axialOffset;
 
         if      (x ==  0 && y >  0) axialOffset = new Vector2Int( 0, -1);  // N  (W key)
-        else if (x >  0 && y > 0) axialOffset = new Vector2Int(-1, 0);  // NE (E key)
-        else if (x >  0 && y <  0)  axialOffset = new Vector2Int(-1,  1);  // SE (D key)
+        else if (x >  0 && y > 0) axialOffset = new Vector2Int(1, -1);  // NE (E key)
+        else if (x >  0 && y <  0)  axialOffset = new Vector2Int(1,  0);  // SE (D key)
         else if (x ==  0 && y <  0) axialOffset = new Vector2Int( 0,  1);  // S  (S key)
-        else if (x <  0 && y <  0)  {axialOffset = new Vector2Int( 1,  0);}  // SW (A key)
-        else if (x <  0 && y >  0)  axialOffset = new Vector2Int( 1, -1);  // NW (Q key)
+        else if (x <  0 && y <  0)  axialOffset = new Vector2Int(-1,  1);  // SW (A key)
+        else if (x <  0 && y >  0)  axialOffset = new Vector2Int( -1, 0);  // NW (Q key)
         else return;
 
         Vector2Int targetAxial = currentTile.hex.axial + axialOffset;

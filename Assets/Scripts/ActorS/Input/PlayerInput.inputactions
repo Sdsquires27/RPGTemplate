@@ -48,7 +48,7 @@
                 },
                 {
                     "name": "Hex Movement",
-                    "id": "e404f575-80bf-4653-9afe-fd05e537fffc",
+                    "id": "ab261420-e122-40b8-9b6c-eed7c94d17cc",
                     "path": "HexMovement",
                     "interactions": "",
                     "processors": "",
@@ -59,7 +59,7 @@
                 },
                 {
                     "name": "n",
-                    "id": "b464abb5-18d0-4fd2-859d-7b1b8ab93e4c",
+                    "id": "93fae683-434a-4b72-b42d-6af17458b75c",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -69,19 +69,8 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "se",
-                    "id": "04669b0a-a765-4d96-a523-a5a5f4d24b76",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "ne",
-                    "id": "4aa4c149-5a07-4c54-aa92-44b90822a52e",
+                    "id": "314797d6-98fc-4782-aedd-9d9542b0a13b",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
@@ -91,8 +80,19 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "se",
+                    "id": "87f49c1d-734f-4444-a8e6-5548951be26c",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "s",
-                    "id": "8d2ffb72-9c2b-4c44-b8f4-40aea745003a",
+                    "id": "0859edc5-7541-4460-888b-cac2fa66a173",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -103,7 +103,7 @@
                 },
                 {
                     "name": "sw",
-                    "id": "3be4a39b-61e6-42c7-8b00-f3270f7f9aea",
+                    "id": "0df45c95-37c9-4533-b46c-55ea9001f859",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -114,7 +114,7 @@
                 },
                 {
                     "name": "nw",
-                    "id": "3ecdb2a4-d4a4-45f2-a812-35a5a1c6c7be",
+                    "id": "d9f36ed7-c93e-4c2f-bf22-2819254d3133",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",

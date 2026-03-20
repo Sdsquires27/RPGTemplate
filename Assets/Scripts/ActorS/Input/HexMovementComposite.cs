@@ -17,8 +17,8 @@ using UnityEditor;
 public class HexMovementComposite : InputBindingComposite<Vector2>
 {
 [InputControl(layout = "Button")] public int n;
-[InputControl(layout = "Button")] public int se; 
 [InputControl(layout = "Button")] public int ne; 
+[InputControl(layout = "Button")] public int se; 
 [InputControl(layout = "Button")] public int s;
 [InputControl(layout = "Button")] public int sw;
 [InputControl(layout = "Button")] public int nw;
@@ -26,10 +26,10 @@ public class HexMovementComposite : InputBindingComposite<Vector2>
     // Flat-top hex direction vectors
 private static readonly Vector2 dirN  = new Vector2( 0f,    1f);
 private static readonly Vector2 dirS  = new Vector2( 0f,   -1f);
-private static readonly Vector2 dirNE = new Vector2(-0.866f,  0.5f); 
-private static readonly Vector2 dirSE = new Vector2(-0.866f, -0.5f);  
-private static readonly Vector2 dirSW = new Vector2( 0.866f, -0.5f);  
-private static readonly Vector2 dirNW = new Vector2( 0.866f,  0.5f);  
+private static readonly Vector2 dirNE = new Vector2(0.866f,  0.5f); 
+private static readonly Vector2 dirSE = new Vector2(0.866f, -0.5f);  
+private static readonly Vector2 dirSW = new Vector2(-0.866f, -0.5f);  
+private static readonly Vector2 dirNW = new Vector2(-0.866f,  0.5f);  
 
     #if UNITY_EDITOR
     static HexMovementComposite()

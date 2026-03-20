@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Camera\CameraController.cs" />
     <Compile Include="Assets\Scripts\Actors\Movement\Pathfinder.cs" />
+    <Compile Include="Assets\Scripts\UI\Panels\MenuPanel.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\AttackAction.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\WanderAction.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Strategic\StrategicLayer.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Assets\Scripts\Actors\AI\Goals\GoalLayer.cs" />
     <Compile Include="Assets\Scripts\TileScripts\HexGrid.cs" />
     <Compile Include="Assets\Scripts\Actors\ActorScript.cs" />
+    <Compile Include="Assets\Scripts\UI\Panels\UIPanel.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\AIContext.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\IInputHandler.cs" />
     <Compile Include="Assets\Scripts\Actors\Player\PlayerScript.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Assets\Scripts\Actors\Player\ControlScheme.cs" />
     <Compile Include="Assets\Scripts\Debugging\LineManager.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\ChaseAction.cs" />
-    <Compile Include="Assets\Scripts\UI\UIPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\MenuButton.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\AIAction.cs" />
     <Compile Include="Assets\Scripts\TileScripts\SpriteOutline.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\HexMovementComposite.cs" />
@@ -81,17 +83,40 @@
     <Compile Include="Assets\Scripts\Managers\GameBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheets\hexagonBuildings_sheet.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\trees.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\aliens.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\fullTiles.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\Sprites\KennyTiles\License.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheets\hexagonAll_sheet.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\topTiles.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheets\hexagonObjects_sheet.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheets\hexagonTerrain_sheet.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\details.xml" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\Sprites\KennyTiles\Spritesheet\complete.xml" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
