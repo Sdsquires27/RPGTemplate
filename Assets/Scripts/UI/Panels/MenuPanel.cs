@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class MenuPanel : UIPanel
 {
     [Header("References")]
-    [SerializeField] private Transform buttonContainer;
+    [SerializeField] private RectTransform buttonContainer;
     [SerializeField] private GameObject buttonPrefab;
 
     [Header("Navigation")]
@@ -32,6 +32,7 @@ public class MenuPanel : UIPanel
         MenuButton btn = go.GetComponent<MenuButton>();
         btn.Setup(label, onClick, this);
         buttons.Add(btn);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(buttonContainer);
     }
 
     public void ClearButtons()

@@ -19,6 +19,7 @@ public abstract class ActorScript : MonoBehaviour
 
 
     protected Rigidbody2D rb;
+    protected Vector2Int facingDirection = new Vector2Int(0, 1); // default facing N
     #endregion
 
     protected virtual void Start()
@@ -45,6 +46,7 @@ public abstract class ActorScript : MonoBehaviour
     public virtual void MoveToTile(HexTile tile)
     {
         if (tile == null || !tile.isWalkable || isMoving) return;
+        facingDirection = tile.hex.axial - currentTile.hex.axial;
         StartCoroutine(SmoothMove(tile));
     }
 

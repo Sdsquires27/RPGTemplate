@@ -4,7 +4,10 @@ using UnityEngine;
 public class HexTile : MonoBehaviour
 {
     [SerializeField] private bool _isWalkable = true;
-    public bool isWalkable => _isWalkable;
+
+    public Item occupiedBy { get; private set; }
+
+    public bool isWalkable => _isWalkable && occupiedBy == null;
 
     public int movementCost { get; private set; } = 1;
     [SerializeField] private Hex _hex;
@@ -59,5 +62,15 @@ public class HexTile : MonoBehaviour
                 hexCorner(transform.position, size, (i + 1) % 6)
             );
         }
+    }
+
+    public void SetOccupant(Item item)
+    {
+        occupiedBy = item;
+    }
+
+    public void ClearOccupant()
+    {
+        occupiedBy = null;
     }
 }

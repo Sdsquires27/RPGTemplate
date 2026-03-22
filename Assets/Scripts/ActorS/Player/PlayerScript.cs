@@ -10,9 +10,14 @@ public class PlayerScript : ActorScript
     private InputAction moveAction;
     private InputAction clickAction;
 
+    [SerializeField] private MenuPanel menuPanel;
+    [SerializeField] private SettingsPanel settingsPanel;
+
     // Cooldown to prevent too-rapid movement on held input
     [SerializeField] private float inputCooldown = 0.2f;
     private float lastInputTime;
+    [SerializeField] private Inventory inventory;
+
 
     private List<HexTile> currentPath = new List<HexTile>();
     private Coroutine pathCoroutine;
@@ -29,6 +34,8 @@ public class PlayerScript : ActorScript
         playerInput.actions.FindActionMap("Player").Enable();
 
     }
+
+    
 
     protected override void HandleMovement()
     {
@@ -100,8 +107,48 @@ public class PlayerScript : ActorScript
             MoveToTile(tile);
     }
 
+    void OpenMenu()
+    {
+        menuPanel.ClearButtons();
+        menuPanel.AddButton("Resume",   () => UIManager.Instance.CloseTopPanel());
+        menuPanel.AddButton("Settings", () => UIManager.Instance.OpenPanel(settingsPanel));
+        // menuPanel.AddButton("Inventory",() => UIManager.Instance.OpenPanel(inventoryPanel));
+        menuPanel.AddButton("Quit",     () => Application.Quit());
+        UIManager.Instance.OpenPanel(menuPanel);
+    }
     protected override void HandleActions()
     {
-        // TODO: hook up Action1 etc.
+        if (UnityEngine.InputSystem.Keyboard.current.escapeKey.wasPressedThisFrame)
+            OpenMenu();
+
+        if (UnityEngine.InputSystem.Keyboard.current.fKey.wasPressedThisFrame)
+            TryInteract();
     }
+
+void TryInteract()
+{
+    Vector2Int facingAxial = currentTile.hex.axial + facingDirection;
+    if (!hexGrid.hexTiles.TryGetValue(facingAxial, out HexTile facingTile)) return;
+
+    // Check for dialogue trigger first
+    DialogueTrigger trigger = facingTile.GetComponentInChildren<DialogueTrigger>();
+    if (trigger != null)
+    {
+        trigger.Trigger();
+        return;
+    }
+
+    // Otherwise handle items as before
+    if (!inventory.IsEmpty)
+    {
+        if (facingTile.occupiedBy == null && facingTile.isWalkable)
+            inventory.Drop(facingTile);
+    }
+    else
+    {
+        if (facingTile.occupiedBy != null)
+            inventory.PickUp(facingTile.occupiedBy);
+    }
+}
+
 }
