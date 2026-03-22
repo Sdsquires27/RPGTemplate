@@ -38,7 +38,8 @@ public static class Pathfinder
 
             foreach (HexTile neighbor in hexGrid.GetNeighbors(current))
             {
-                if (closedSet.Contains(neighbor) || !neighbor.isWalkable) continue;
+                bool passable = neighbor.isWalkable || neighbor == goal;
+                if (closedSet.Contains(neighbor) || !passable) continue;
 
                 float tentativeG = GetScore(gScore, current) + neighbor.movementCost;
 

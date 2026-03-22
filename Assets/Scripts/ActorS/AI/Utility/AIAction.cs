@@ -7,6 +7,7 @@ public abstract class AIAction
 
     public string actionName { get; protected set; }
 
+
     public AIAction(AIScript actor, Blackboard blackboard, GoalLayer goalLayer)
     {
         this.actor = actor;

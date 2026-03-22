@@ -6,8 +6,29 @@ public class HexTile : MonoBehaviour
     [SerializeField] private bool _isWalkable = true;
 
     public Item occupiedBy { get; private set; }
+    public ActorScript occupiedByActor { get; private set; }
 
-    public bool isWalkable => _isWalkable && occupiedBy == null;
+    public bool isWalkable => _isWalkable && occupiedBy == null && occupiedByActor == null;
+
+    public void SetOccupant(Item item)
+    {
+        occupiedBy = item;
+    }
+
+    public void ClearOccupant()
+    {
+        occupiedBy = null;
+    }
+
+    public void SetActor(ActorScript actor)
+    {
+        occupiedByActor = actor;
+    }
+
+    public void ClearActor()
+    {
+        occupiedByActor = null;
+    }
 
     public int movementCost { get; private set; } = 1;
     [SerializeField] private Hex _hex;
@@ -62,15 +83,5 @@ public class HexTile : MonoBehaviour
                 hexCorner(transform.position, size, (i + 1) % 6)
             );
         }
-    }
-
-    public void SetOccupant(Item item)
-    {
-        occupiedBy = item;
-    }
-
-    public void ClearOccupant()
-    {
-        occupiedBy = null;
     }
 }

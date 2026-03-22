@@ -1,4 +1,3 @@
-// Assets/Scripts/UI/Panels/DialoguePanel.cs
 using UnityEngine;
 using TMPro;
 using System.Collections;
@@ -8,10 +7,12 @@ public class DialoguePanel : UIPanel
     [Header("References")]
     [SerializeField] private TextMeshProUGUI speakerText;
     [SerializeField] private TextMeshProUGUI dialogueText;
+    [SerializeField] private ResponsePanel responsePanel;
 
     private DialogueData currentDialogue;
     private int currentLineIndex;
     private bool waitingForInput = false;
+    private bool waitingForResponse = false;
 
     public void StartDialogue(DialogueData dialogue)
     {
@@ -24,15 +25,18 @@ public class DialoguePanel : UIPanel
     protected override void OnOpen()
     {
         waitingForInput = false;
+        waitingForResponse = false;
         StartCoroutine(WaitForInput());
     }
 
     protected override void OnClose()
     {
         StopAllCoroutines();
+        responsePanel.Hide();
         currentDialogue = null;
         currentLineIndex = 0;
         waitingForInput = false;
+        waitingForResponse = false;
     }
 
     void ShowCurrentLine()
@@ -40,22 +44,34 @@ public class DialoguePanel : UIPanel
         var line = currentDialogue.lines[currentLineIndex];
         speakerText.text = line.speakerName;
         dialogueText.text = line.text;
-        waitingForInput = true;
-    }
 
-    IEnumerator WaitForInput()
-    {
-        // Wait one frame to avoid immediately consuming the input that opened dialogue
-        yield return null;
-
-        while (isOpen)
+        if (line.HasResponses)
         {
-            if (waitingForInput && UnityEngine.InputSystem.Keyboard.current.anyKey.wasPressedThisFrame)
-                AdvanceDialogue();
-
-            yield return null;
+            // Filter to only responses whose conditions are met
+            waitingForResponse = true;
+            waitingForInput = false;
+            responsePanel.Show(line.responses, OnResponseSelected);
+        }
+        else
+        {
+            waitingForInput = true;
+            waitingForResponse = false;
         }
     }
+
+IEnumerator WaitForInput()
+{
+    yield return null;
+
+    while (isOpen)
+    {
+        if (waitingForInput && !waitingForResponse &&
+            UnityEngine.InputSystem.Keyboard.current.anyKey.wasPressedThisFrame)
+            AdvanceDialogue();
+
+        yield return null;
+    }
+}
 
     void AdvanceDialogue()
     {
@@ -64,10 +80,32 @@ public class DialoguePanel : UIPanel
 
         if (currentLineIndex >= currentDialogue.lines.Length)
         {
+            currentDialogue.ApplyStateChanges();
             UIManager.Instance.CloseTopPanel();
             return;
         }
 
         ShowCurrentLine();
+    }
+
+    void OnResponseSelected(DialogueResponse response)
+    {
+        waitingForResponse = false;
+
+        // Apply response state changes
+        response.Apply();
+
+        if (response.followUp != null)
+        {
+            // Switch to follow-up dialogue
+            currentDialogue = response.followUp;
+            currentLineIndex = 0;
+            ShowCurrentLine();
+        }
+        else
+        {
+            // No follow-up — advance to next line or end
+            AdvanceDialogue();
+        }
     }
 }

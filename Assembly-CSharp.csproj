@@ -62,13 +62,17 @@
     <Compile Include="Assets\Scripts\UI\Panels\UIPanel.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\AIContext.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\IInputHandler.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogueTree.cs" />
     <Compile Include="Assets\Scripts\Actors\Player\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\PlayerInputHandler.cs" />
     <Compile Include="Assets\Scripts\TileScripts\Hex.cs" />
     <Compile Include="Assets\Scripts\UI\Panels\DialoguePanel.cs" />
+    <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\SeekItemAction.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Blackboard.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\AIScript.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueData.cs" />
+    <Compile Include="Assets\Scripts\Actors\AI\NPCScript.cs" />
+    <Compile Include="Assets\Scripts\UI\ResponseButton.cs" />
     <Compile Include="Assets\Scripts\Services\GameState.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\FleeAction.cs" />
     <Compile Include="Assets\Scripts\TileScripts\HexTile.cs" />
@@ -81,13 +85,17 @@
     <Compile Include="Assets\Scripts\Actors\AI\Utility\AIAction.cs" />
     <Compile Include="Assets\Scripts\Item\ItemData.cs" />
     <Compile Include="Assets\Scripts\UI\Panels\SettingsPanel.cs" />
+    <Compile Include="Assets\Scripts\Actors\AI\Utility\Actions\DetectItemAction.cs" />
     <Compile Include="Assets\Scripts\TileScripts\SpriteOutline.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\HexMovementComposite.cs" />
     <Compile Include="Assets\Scripts\Actors\AI\Goals\AIGoal.cs" />
     <Compile Include="Assets\Scripts\Item\Item.cs" />
+    <Compile Include="Assets\Scripts\UI\Panels\ResponsePanel.cs" />
     <Compile Include="Assets\Scripts\Services\GameServices.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogueCondition.cs" />
     <Compile Include="Assets\Scripts\Actors\Input\IPlayerInput.cs" />
     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\Dialogue\DialogueResponse.cs" />
     <Compile Include="Assets\Scripts\Managers\GameBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>

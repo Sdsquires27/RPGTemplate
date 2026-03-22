@@ -130,25 +130,27 @@ void TryInteract()
     Vector2Int facingAxial = currentTile.hex.axial + facingDirection;
     if (!hexGrid.hexTiles.TryGetValue(facingAxial, out HexTile facingTile)) return;
 
-    // Check for dialogue trigger first
-    DialogueTrigger trigger = facingTile.GetComponentInChildren<DialogueTrigger>();
-    if (trigger != null)
+    // Check for NPC on facing tile
+    if (facingTile.occupiedByActor != null)
     {
-        trigger.Trigger();
+        DialogueTrigger trigger = facingTile.occupiedByActor.GetComponent<DialogueTrigger>();
+        if (trigger != null)
+        {
+            trigger.Trigger();
+            return;
+        }
+    }
+
+    // Check for item on facing tile
+    if (facingTile.occupiedBy != null && inventory.IsEmpty)
+    {
+        inventory.PickUp(facingTile.occupiedBy);
         return;
     }
 
-    // Otherwise handle items as before
-    if (!inventory.IsEmpty)
-    {
-        if (facingTile.occupiedBy == null && facingTile.isWalkable)
-            inventory.Drop(facingTile);
-    }
-    else
-    {
-        if (facingTile.occupiedBy != null)
-            inventory.PickUp(facingTile.occupiedBy);
-    }
+    // Drop item on facing tile if holding one
+    if (!inventory.IsEmpty && facingTile.occupiedBy == null && facingTile.isWalkable)
+        inventory.Drop(facingTile);
 }
 
 }

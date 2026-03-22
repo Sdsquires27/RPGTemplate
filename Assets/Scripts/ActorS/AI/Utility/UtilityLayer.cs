@@ -13,13 +13,6 @@ public class UtilityLayer
         this.actor = actor;
         this.blackboard = blackboard;
         this.goalLayer = goalLayer;
-
-        // Register all available actions
-        actions.Add(new ChaseAction(actor, blackboard, goalLayer));
-        actions.Add(new AttackAction(actor, blackboard, goalLayer));
-        actions.Add(new FleeAction(actor, blackboard, goalLayer));
-        actions.Add(new WanderAction(actor, blackboard, goalLayer));
-        // TODO: Add more actions as needed
     }
 
     public void Tick(AIContext ctx)
@@ -43,5 +36,9 @@ public class UtilityLayer
             }
         }
         return best;
+    }
+    public void AddAction(AIAction action)
+    {
+        actions.Add(action);
     }
 }

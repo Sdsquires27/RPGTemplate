@@ -5,6 +5,13 @@ public class Item : MonoBehaviour
     public ItemData data;
     public HexTile currentTile { get; private set; }
 
+    void Start()
+    {
+        // Find the nearest tile and place on it
+        HexGrid grid = FindFirstObjectByType<HexGrid>();
+        HexTile tile = grid.GetNearestTile(transform.position);
+        if (tile != null) Place(tile);
+    }
     public void Place(HexTile tile)
     {
         // Clear old tile

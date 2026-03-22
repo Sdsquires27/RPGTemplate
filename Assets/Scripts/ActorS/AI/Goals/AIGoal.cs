@@ -8,5 +8,6 @@ public enum AIGoal
     Retreat,
     Investigate,    // Something was heard/seen
     CallForHelp,
+    SeekItem  
     // Add more as needed...
 }

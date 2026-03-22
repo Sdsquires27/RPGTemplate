@@ -27,12 +27,13 @@ public abstract class ActorScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         hexGrid = FindFirstObjectByType<HexGrid>();
 
-        // In ActorScript.Start()
         currentTile = hexGrid.GetNearestTile(transform.position);
         if (currentTile != null)
+        {
             transform.position = currentTile.transform.position;
+            currentTile.SetActor(this);
+        }
     }
-
     protected virtual void Update()
     {
         if (!isMoving)
@@ -55,6 +56,9 @@ public abstract class ActorScript : MonoBehaviour
         isMoving = true;
         targetTile = tile;
 
+        // Unregister from current tile
+        currentTile?.ClearActor();
+
         Vector3 startPos = transform.position;
         Vector3 endPos = tile.transform.position;
         float elapsed = 0f;
@@ -70,6 +74,10 @@ public abstract class ActorScript : MonoBehaviour
         transform.position = endPos;
         currentTile = tile;
         targetTile = null;
+
+        // Register on new tile
+        currentTile.SetActor(this);
+
         isMoving = false;
     }
 
@@ -86,5 +94,9 @@ public abstract class ActorScript : MonoBehaviour
     {
         health -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. Health: {health}");
+    }
+    protected virtual void OnDestroy()
+    {
+        currentTile?.ClearActor();
     }
 }

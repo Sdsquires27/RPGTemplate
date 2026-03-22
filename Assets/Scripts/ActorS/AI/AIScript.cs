@@ -1,21 +1,15 @@
-// Assets/Scripts/AI/AIScript.cs
 using UnityEngine;
 
 public class AIScript : ActorScript
 {
-    [Header("AI Settings")]
-    [SerializeField] private float detectionRange = 3f;
-    [SerializeField] private int attackDamage = 10;
-    [SerializeField] private LayerMask targetLayer;
+    [Header("AI Movement")]
+    [SerializeField] private float moveCooldown = 1f;
+    private float lastMoveTime;
+    protected Blackboard blackboard;
+    protected GoalLayer goalLayer;
+    protected UtilityLayer utilityLayer;
+    protected StrategicLayer strategicLayer;
 
-    // The three layers
-    private StrategicLayer strategicLayer;  // shared, found in scene
-    private GoalLayer goalLayer;            // per agent
-    private UtilityLayer utilityLayer;      // per agent
-
-    private Blackboard blackboard;
-
-    // Exposed properties for action/condition nodes
     public bool IsMoving => isMoving;
     public HexTile CurrentTile => currentTile;
     public HexGrid HexGrid => hexGrid;
@@ -24,36 +18,42 @@ public class AIScript : ActorScript
     protected override void Start()
     {
         base.Start();
-
         blackboard = new Blackboard();
         goalLayer = new GoalLayer(this, blackboard);
-        utilityLayer = new UtilityLayer(this, blackboard, goalLayer);
-
-        // Find and register with the strategic layer if one exists
+        utilityLayer = BuildUtilityLayer(); // virtual so subclasses can add their own actions
         strategicLayer = FindFirstObjectByType<StrategicLayer>();
         strategicLayer?.RegisterAgent(this);
     }
 
-    void OnDestroy()
+    // Subclasses override this to register their specific actions
+    protected virtual UtilityLayer BuildUtilityLayer()
     {
-        strategicLayer?.UnregisterAgent(this);
+        return new UtilityLayer(this, blackboard, goalLayer);
     }
 
     protected override void HandleMovement()
     {
-        // Tick goal layer on its slower interval
         goalLayer.Tick();
 
-        // Tick utility layer every frame
+        // Only tick utility layer if cooldown has passed
+        if (Time.time - lastMoveTime < moveCooldown) return;
         utilityLayer.Tick(GetContext());
     }
+    
+    public override void MoveToTile(HexTile tile)
+    {
+        base.MoveToTile(tile);
+        lastMoveTime = Time.time;
+    }
+
+    protected override void HandleActions() { }
 
     public void ReceiveDirective(StrategicDirective directive)
     {
         goalLayer.ReceiveDirective(directive);
     }
 
-    AIContext GetContext()
+    public virtual AIContext GetContext()
     {
         return new AIContext
         {
@@ -62,10 +62,12 @@ public class AIScript : ActorScript
             hexGrid = hexGrid,
             currentTile = currentTile,
             healthPercent = HealthPercent,
-            detectionRange = detectionRange,
-            attackDamage = attackDamage
         };
     }
 
-    protected override void HandleActions() { }
+    new void OnDestroy()
+    {
+        strategicLayer?.UnregisterAgent(this);
+        currentTile?.ClearActor();
+    }
 }

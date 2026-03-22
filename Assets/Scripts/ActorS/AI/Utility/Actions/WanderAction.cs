@@ -1,4 +1,6 @@
-// Assets/Scripts/AI/Utility/Actions/WanderAction.cs
+using System.Collections.Generic;
+using UnityEngine;
+
 public class WanderAction : AIAction
 {
     public WanderAction(AIScript actor, Blackboard blackboard, GoalLayer goalLayer)
@@ -6,12 +8,18 @@ public class WanderAction : AIAction
 
     protected override float Score(AIContext ctx)
     {
-        // TODO: low constant score as fallback
-        return 0f;
+        // Low constant score — always available as fallback
+        return 0.2f;
     }
 
     public override void Execute()
     {
-        // TODO: move to random walkable neighbor
+        if (actor.IsMoving) return;
+
+        List<HexTile> neighbors = actor.HexGrid.GetNeighbors(actor.CurrentTile);
+        List<HexTile> walkable = neighbors.FindAll(t => t.isWalkable);
+        if (walkable.Count == 0) return;
+
+        actor.MoveToTile(walkable[Random.Range(0, walkable.Count)]);
     }
 }
