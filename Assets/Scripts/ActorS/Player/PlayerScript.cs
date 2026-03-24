@@ -90,7 +90,6 @@ public class PlayerScript : ActorScript
         Vector2 normalized = input.normalized;
         float x = Mathf.Round(normalized.x / 0.866f);
         float y = Mathf.Round(normalized.y);
-        Debug.Log("Vector 2 normalized x: " + x + "y: " + y);
 
         Vector2Int axialOffset;
 
