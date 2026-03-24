@@ -8,7 +8,6 @@ public class NPCScript : AIScript
 
     protected override UtilityLayer BuildUtilityLayer()
     {
-        Debug.Log("BuildUtilityLayer called on " + gameObject.name);
         UtilityLayer layer = new UtilityLayer(this, blackboard, goalLayer);
         layer.AddAction(new DetectItemAction(this, blackboard, goalLayer));
         layer.AddAction(new SeekItemAction(this, blackboard, goalLayer));
