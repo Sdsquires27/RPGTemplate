@@ -11,8 +11,10 @@ using UnityEngine;
 ///   2. Set OutlineColor and OutlineThickness in the Inspector.
 ///   3. The sprite's texture MUST have Read/Write Enabled in Import Settings.
 /// </summary>
-[ExecuteAlways]
 [RequireComponent(typeof(SpriteRenderer))]
+#if UNITY_EDITOR
+[UnityEditor.InitializeOnLoad]
+#endif
 public class SpriteOutline : MonoBehaviour
 {
     [Header("Outline Settings")]
