@@ -55,6 +55,7 @@
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\UtilityLayer.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\FleeAction.cs" />
     <Compile Include="Assets\Scripts\ActorS\Player\Inventory.cs" />
+    <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\TrackItemAction.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\WanderAction.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Goals\GoalLayer.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Blackboard.cs" />
@@ -72,12 +73,14 @@
     <Compile Include="Assets\Scripts\TileScripts\Hex.cs" />
     <Compile Include="Assets\Scripts\UI\Panels\DialoguePanel.cs" />
     <Compile Include="Assets\Scripts\ActorS\ActorScript.cs" />
+    <Compile Include="Assets\Scripts\ActorS\AI\Quest\QuestState.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueData.cs" />
     <Compile Include="Assets\Scripts\UI\ResponseButton.cs" />
     <Compile Include="Assets\Scripts\ActorS\Player\PlayerScript.cs" />
     <Compile Include="Assets\Scripts\Services\GameState.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\DetectItemAction.cs" />
     <Compile Include="Assets\Scripts\ActorS\Movement\Pathfinder.cs" />
+    <Compile Include="Assets\Scripts\ActorS\AI\Quest\PersonalityData.cs" />
     <Compile Include="Assets\Scripts\TileScripts\HexTile.cs" />
     <Compile Include="Assets\Scripts\Debugging\LineManager.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Goals\AIGoal.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Assets\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Scripts\UI\Panels\ResponsePanel.cs" />
     <Compile Include="Assets\Scripts\ActorS\Input\PlayerInputHandler.cs" />
+    <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\MonitorObjectiveAction.cs" />
     <Compile Include="Assets\Scripts\Services\GameServices.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Strategic\StrategicLayer.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueCondition.cs" />
