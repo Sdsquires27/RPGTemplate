@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef9bdc39f2cf834baafbc4e5b28e5ba, type: 3}
+  m_Name: Joseph
+  m_EditorClassIdentifier: Assembly-CSharp::PersonalityData
+  personalityName: New Personality
+  description: Describe this personality...
+  questStates:
+  - questName: Selfishness
+    isActive: 0
+    gameStateKey: jacob_phase1
+    activationKey: 
+    desiredItems: []
+    objectiveKeys:
+    - told_of_others
+    requireAllObjectives: 1
+    questPriority: 1
+  - questName: find materials
+    isActive: 0
+    gameStateKey: 
+    activationKey: told_of_others
+    desiredItems:
+    - {fileID: 11400000, guid: 03b09561659edb342afba618f162411f, type: 2}
+    - {fileID: 0}
+    objectiveKeys:
+    - paper_collected
+    - ink_collected
+    requireAllObjectives: 1
+    questPriority: 0.5

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
+  m_Name: InitialMeeting
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  lines:
+  - speakerName: Joseph
+    text: 'You''re finally up? Good! I''ve been waiting for you. '
+    responses: []
+  - speakerName: Joseph
+    text: It appears that we're trapped on an island. I'm not sure how we got here,
+      but we've got to figure some things out.
+    responses: []
+  - speakerName: Joseph
+    text: Go figure out what's going on!
+    responses:
+    - {fileID: 11400000, guid: 6a3c6eba007ad6a44b3e851afbcde214, type: 2}
+    - {fileID: 11400000, guid: 68a13c7da462b4141ba8c1ad5edc9ae4, type: 2}
+    - {fileID: 11400000, guid: 30847b24e402fdb42baded2abfdf3d0f, type: 2}
+  conditions:
+  - variableName: have_met
+    type: 0
+    intValue: 0
+    boolValue: 0
+  priority: 5
+  onComplete:
+  - type: 0
+    variableName: have_met
+    intValue: 0
+    boolValue: 1

@@ -52,13 +52,16 @@ public class PersonalityData : ScriptableObject
     }
 
     /// <summary>
-    /// Check if the currently active quest's objectives are met.
+    /// Check if all quest states are complete.
     /// </summary>
-    public bool IsActiveQuestComplete()
+    public bool AreAllQuestsComplete()
     {
-        QuestState active = GetActiveQuest();
-        if (active == null) return false;
-        return active.AreObjectivesMet();
+        foreach (QuestState quest in questStates)
+        {
+            if (!quest.AreObjectivesMet())
+                return false;
+        }
+        return true;
     }
 
     /// <summary>

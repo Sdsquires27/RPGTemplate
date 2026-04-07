@@ -8,9 +8,19 @@ public class NPCScript : AIScript
     
     [Header("NPC Settings")]
     [SerializeField] private float detectionRange = 5f;
+    [SerializeField] public int wanderRadius = 3; // Tiles from starting position
+    [SerializeField] public HexTile homeTile; // Optional: specific home tile
+
+    public HexTile startingTile { get; private set; }
 
     private float lastQuestCheckTime;
     [SerializeField] private float questCheckInterval = 0.5f; // Check every 0.5 seconds
+
+    protected override void Start()
+    {
+        base.Start();
+        startingTile = currentTile; // Record starting position
+    }
 
     protected override void Update()
     {
