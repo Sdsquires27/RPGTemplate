@@ -24,6 +24,7 @@ public class Inventory : MonoBehaviour
         heldItems.RemoveAt(0);
         item.transform.SetParent(null);
         item.Place(tile);
+        item.data?.ApplyStateChanges(item.data.onDropped);
         return true;
     }
 

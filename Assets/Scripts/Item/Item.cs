@@ -36,5 +36,8 @@ public class Item : MonoBehaviour
         transform.SetParent(carriedBy);
         transform.localPosition = new Vector3(0.2f, 0.2f, -0.1f); // slight offset so it's visible
         gameObject.SetActive(true);
+
+        // Apply item-driven GameState changes for pickup
+        data?.ApplyStateChanges(data.onPickedUp);
     }
 }
