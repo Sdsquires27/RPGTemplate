@@ -15,7 +15,8 @@ public class GameBootstrapper : MonoBehaviour
         GameServices.Register(
             player.GetComponent<Rigidbody2D>(),
             playerInput,
-            inputHandler
+            inputHandler,
+            player.GetComponent<Inventory>()
         );
     }
 

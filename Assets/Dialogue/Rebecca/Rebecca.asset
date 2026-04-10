@@ -10,17 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ef9bdc39f2cf834baafbc4e5b28e5ba, type: 3}
-  m_Name: Hawa
+  m_Name: Rebecca
   m_EditorClassIdentifier: Assembly-CSharp::PersonalityData
-  personalityName: Hawa
-  description: 
-  questStates:
-  - questName: Silence
-    isActive: 0
-    gameStateKey: 
-    activationKey: 
-    desiredItems: []
-    objectiveKeys:
-    - 
-    requireAllObjectives: 0
-    questPriority: 0
+  personalityName: New Personality
+  description: Describe this personality...
+  questStates: []

@@ -43,12 +43,13 @@ public class DialogueCondition
 [System.Serializable]
 public class DialogueStateChange
 {
-    public enum ChangeType { SetBool, SetInt, IncrementInt, DecrementInt }
+    public enum ChangeType { SetBool, SetInt, IncrementInt, DecrementInt, GiveItem }
 
     public ChangeType type;
     public string variableName;
     public int intValue;
     public bool boolValue;
+    public ItemData item;
 
     public void Apply()
     {
@@ -66,6 +67,27 @@ public class DialogueStateChange
             case ChangeType.DecrementInt:
                 GameState.SetInt(variableName, GameState.GetInt(variableName) - intValue);
                 break;
+            case ChangeType.GiveItem:
+                GiveItemToPlayer();
+                break;
         }
+    }
+
+    private void GiveItemToPlayer()
+    {
+        if (item == null) return;
+
+        Inventory inventory = GameServices.GetPlayerInventory();
+        if (inventory == null) return;
+        if (inventory.IsFull) return;
+        if (item.worldPrefab == null) return;
+
+        GameObject itemObject = Object.Instantiate(item.worldPrefab);
+        Item spawnedItem = itemObject.GetComponent<Item>();
+        if (spawnedItem == null)
+            spawnedItem = itemObject.AddComponent<Item>();
+
+        spawnedItem.data = item;
+        inventory.PickUp(spawnedItem);
     }
 }

@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 635618fd1cbdf814cbc160100413fb9c, type: 3}
-  m_Name: TellOfOthers
+  m_Name: WhyAreWeHere
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
-  responseText: I've already met the others.
-  conditions:
-  - variableName: met_hawa
-    type: 0
-    intValue: 0
-    boolValue: 1
-  - variableName: met_rebecca
-    type: 0
-    intValue: 0
-    boolValue: 1
-  followUp: {fileID: 11400000, guid: ca742dcd3d19a7840be8b13b3e56d042, type: 2}
+  responseText: 
+  conditions: []
+  followUp: {fileID: 0}
   onSelected: []

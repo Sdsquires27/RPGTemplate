@@ -28,8 +28,12 @@ MonoBehaviour:
     text: There are other people here? They're stuck here too?
     responses: []
   - speakerName: Joseph
-    text: 
+    text: I'm sorry. I should have been doing more...
     responses: []
   conditions: []
   priority: 0
-  onComplete: []
+  onComplete:
+  - type: 0
+    variableName: told_of_others
+    intValue: 0
+    boolValue: 1
