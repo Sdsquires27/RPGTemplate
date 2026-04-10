@@ -8,8 +8,18 @@ public class NPCScript : AIScript
     
     [Header("NPC Settings")]
     [SerializeField] private float detectionRange = 5f;
-    [SerializeField] public int wanderRadius = 3; // Tiles from starting position
+    [SerializeField] private int defaultWanderRadius = 3; // Fallback if no personality
     [SerializeField] public HexTile homeTile; // Optional: specific home tile
+
+    public int wanderRadius
+    {
+        get
+        {
+            if (personality != null)
+                return personality.GetActiveQuestWanderRadius();
+            return defaultWanderRadius;
+        }
+    }
 
     public HexTile startingTile { get; private set; }
 

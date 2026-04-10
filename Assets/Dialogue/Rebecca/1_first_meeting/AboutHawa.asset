@@ -13,6 +13,19 @@ MonoBehaviour:
   m_Name: AboutHawa
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
   responseText: Ask About Hawa
-  conditions: []
+  conditions:
+  - variableName: met_hawa
+    type: 0
+    intValue: 0
+    boolValue: 0
+  - variableName: asked_about_hawa
+    type: 0
+    intValue: 0
+    boolValue: 0
   followUp: {fileID: 0}
-  onSelected: []
+  onSelected:
+  - type: 0
+    variableName: asked_about_hawa
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: AfterThis
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
+  lines:
+  - speakerName: Hawa
+    text: I'll continue to help you all. Just give me some time.
+    responses: []
   conditions: []
   priority: 0
   onComplete: []

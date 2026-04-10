@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6533e8b87c852c443a8fc180ad7cbd5c, type: 3}
   m_Name: RebeccaTree
   m_EditorClassIdentifier: Assembly-CSharp::DialogueTree
-  options: []
+  options:
+  - {fileID: 11400000, guid: 6fe3871b64c591d41a521cb5bc2124f3, type: 2}
+  - {fileID: 11400000, guid: 8d007f00ac44a034a94fb524504804ae, type: 2}

@@ -7,6 +7,7 @@ public abstract class ActorScript : MonoBehaviour
     #region Variables
     [Header("Actor Settings")]
     [SerializeField] protected float moveSpeed = 5f;
+    [SerializeField] protected float rotationOffset = 0f; // Degrees to offset rotation
     [SerializeField] protected int health;
     [SerializeField] protected int maxHealth = 100;
 
@@ -33,6 +34,8 @@ public abstract class ActorScript : MonoBehaviour
             transform.position = currentTile.transform.position;
             currentTile.SetActor(this);
         }
+
+        RotateTowards(facingDirection);
     }
     protected virtual void Update()
     {
@@ -48,6 +51,7 @@ public abstract class ActorScript : MonoBehaviour
     {
         if (tile == null || !tile.isWalkable || isMoving) return;
         facingDirection = tile.hex.axial - currentTile.hex.axial;
+        RotateTowards(facingDirection);
         StartCoroutine(SmoothMove(tile));
     }
 
@@ -85,6 +89,20 @@ public abstract class ActorScript : MonoBehaviour
     protected List<HexTile> GetNeighbors()
     {
         return hexGrid.GetNeighbors(currentTile);
+    }
+
+    // Rotate the actor towards the given direction
+    protected void RotateTowards(Vector2Int direction)
+    {
+        float angle = 0f;
+        if (direction == new Vector2Int(1, 0)) angle = 0f;      // East
+        else if (direction == new Vector2Int(0, 1)) angle = 60f;   // Northeast
+        else if (direction == new Vector2Int(-1, 1)) angle = 120f; // Northwest
+        else if (direction == new Vector2Int(-1, 0)) angle = 180f; // West
+        else if (direction == new Vector2Int(0, -1)) angle = 240f; // Southwest
+        else if (direction == new Vector2Int(1, -1)) angle = 300f; // Southeast
+
+        transform.rotation = Quaternion.Euler(0, 0, angle + rotationOffset);
     }
 
     protected abstract void HandleMovement();

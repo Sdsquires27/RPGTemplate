@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: WhyReponse
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
+  lines:
+  - speakerName: Abram
+    text: Why are we here?
+    responses: []
+  - speakerName: Rebecca
+    text: Like I said, I'm not entirely sure.
+    responses: []
+  - speakerName: Rebecca
+    text: I think the most important thing is that we keep moving forward.
+    responses: []
+  - speakerName: Rebecca
+    text: We need to do what we can.
+    responses: []
   conditions: []
   priority: 0
   onComplete: []

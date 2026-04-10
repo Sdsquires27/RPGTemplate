@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635618fd1cbdf814cbc160100413fb9c, type: 3}
   m_Name: WhatToDo
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
-  responseText: 
-  conditions: []
-  followUp: {fileID: 0}
-  onSelected: []
+  responseText: Ask what to do
+  conditions:
+  - variableName: asked_what_to_do
+    type: 0
+    intValue: 0
+    boolValue: 0
+  followUp: {fileID: 11400000, guid: 138c6361e815a7e4ebf586ee97190a35, type: 2}
+  onSelected:
+  - type: 0
+    variableName: asked_what_to_do
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}

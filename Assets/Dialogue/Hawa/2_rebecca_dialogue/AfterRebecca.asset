@@ -17,9 +17,6 @@ MonoBehaviour:
     text: ...
     responses: []
   - speakerName: Abram
-    text: Hello? I've talked to Rebecca.
-    responses: []
-  - speakerName: Abram
     text: Hello? I've talked to Rebecca. She told me to try to help you some more.
     responses: []
   - speakerName: Abram
@@ -40,10 +37,19 @@ MonoBehaviour:
     type: 0
     intValue: 0
     boolValue: 1
+  - variableName: helped_hawa
+    type: 0
+    intValue: 0
+    boolValue: 0
   priority: 0
   onComplete:
   - type: 0
     variableName: helped_hawa
     intValue: 0
-    boolValue: 0
+    boolValue: 1
     item: {fileID: 0}
+  - type: 4
+    variableName: 
+    intValue: 0
+    boolValue: 0
+    item: {fileID: 11400000, guid: 03b09561659edb342afba618f162411f, type: 2}

@@ -12,7 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635618fd1cbdf814cbc160100413fb9c, type: 3}
   m_Name: WhyAreWeHere
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
-  responseText: 
-  conditions: []
-  followUp: {fileID: 0}
-  onSelected: []
+  responseText: Ask why we're here
+  conditions:
+  - variableName: asked_why_are_we_here
+    type: 0
+    intValue: 0
+    boolValue: 0
+  followUp: {fileID: 11400000, guid: 30b489fa9d930d94683b9459681e5b81, type: 2}
+  onSelected:
+  - type: 0
+    variableName: asked_why_are_we_here
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}

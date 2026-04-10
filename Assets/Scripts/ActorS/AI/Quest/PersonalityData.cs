@@ -73,4 +73,14 @@ public class PersonalityData : ScriptableObject
         if (active == null) return 0f;
         return active.questPriority;
     }
+
+    /// <summary>
+    /// Get the wander radius of the currently active quest.
+    /// </summary>
+    public int GetActiveQuestWanderRadius()
+    {
+        QuestState active = GetActiveQuest();
+        if (active == null) return 3; // Default fallback
+        return active.GetWanderRadius();
+    }
 }

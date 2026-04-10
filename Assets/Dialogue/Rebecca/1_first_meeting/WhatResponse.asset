@@ -12,7 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: WhatResponse
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
+  lines:
+  - speakerName: Abram
+    text: What do you think we should be doing?
+    responses: []
+  - speakerName: Rebecca
+    text: Well, there are a few of us here, right?
+    responses: []
+  - speakerName: Rebecca
+    text: We should probably get together. Maybe write down what we remember happening.
+    responses: []
+  - speakerName: Rebecca
+    text: It's not going to be easy, but I have a feeling that things will work out.
+    responses: []
   conditions: []
   priority: 0
   onComplete: []

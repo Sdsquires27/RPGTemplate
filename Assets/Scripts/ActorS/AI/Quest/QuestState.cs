@@ -30,6 +30,10 @@ public class QuestState
     [Tooltip("How urgently the NPC pursues this quest (0-1)")]
     [SerializeField] public float questPriority = 0.8f;
 
+    [Header("Movement")]
+    [Tooltip("Maximum tiles the NPC will wander from home during this quest")]
+    [SerializeField] public int wanderRadius = 3;
+
     /// <summary>
     /// Check if all or any objectives are met, based on requireAllObjectives.
     /// </summary>
@@ -78,6 +82,14 @@ public class QuestState
     public ItemData[] GetDesiredItems()
     {
         return desiredItems;
+    }
+
+    /// <summary>
+    /// Get the wander radius for this quest.
+    /// </summary>
+    public int GetWanderRadius()
+    {
+        return wanderRadius;
     }
 
     /// <summary>

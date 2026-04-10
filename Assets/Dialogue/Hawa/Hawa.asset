@@ -21,6 +21,6 @@ MonoBehaviour:
     activationKey: 
     desiredItems: []
     objectiveKeys:
-    - 
-    requireAllObjectives: 0
+    - helped_hawa
+    requireAllObjectives: 1
     questPriority: 0

@@ -12,7 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: FirstMeeting
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
-  conditions: []
-  priority: 0
-  onComplete: []
+  lines:
+  - speakerName: Rebecca
+    text: Ah, hello.
+    responses: []
+  - speakerName: Rebecca
+    text: I guess you're stuck on this island, too?
+    responses: []
+  - speakerName: Abram
+    text: 'Myself and some others, yes. '
+    responses: []
+  - speakerName: Abram
+    text: Do you have any idea what's going on here?
+    responses: []
+  - speakerName: Rebecca
+    text: Honestly, I'm not sure.
+    responses: []
+  - speakerName: Rebecca
+    text: I've got a few ideas, though.
+    responses:
+    - {fileID: 11400000, guid: 7a2327e184b890a458ff0fc95c5bbfc1, type: 2}
+    - {fileID: 11400000, guid: 324922b5705ef8342bd34298722f69da, type: 2}
+    - {fileID: 11400000, guid: 4cce912db3d769f4696b0d9de4ec68fd, type: 2}
+  conditions:
+  - variableName: has_talked
+    type: 0
+    intValue: 0
+    boolValue: 0
+  priority: 10
+  onComplete:
+  - type: 0
+    variableName: has_talked
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}
+  - type: 0
+    variableName: met_rebecca
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}

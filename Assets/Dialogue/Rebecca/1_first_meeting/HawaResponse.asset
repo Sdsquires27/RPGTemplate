@@ -12,7 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: HawaResponse
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
+  lines:
+  - speakerName: Abram
+    text: I met a woman named Hawa over there...
+    responses: []
+  - speakerName: Abram
+    text: I met a woman named Hawa over there...
+    responses: []
+  - speakerName: Abram
+    text: She didn't respond to me.
+    responses: []
+  - speakerName: Abram
+    text: What do you think I should do about this?
+    responses: []
+  - speakerName: Rebecca
+    text: Interesting.
+    responses: []
+  - speakerName: Rebecca
+    text: Obviously, you need to help her more.
+    responses: []
+  - speakerName: Rebecca
+    text: Tell her about me. See what she does.
+    responses: []
+  - speakerName: Abram
+    text: I'll do what I can.
+    responses: []
   conditions: []
   priority: 0
-  onComplete: []
+  onComplete:
+  - type: 0
+    variableName: talked_rebecca_about_hawa
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}
