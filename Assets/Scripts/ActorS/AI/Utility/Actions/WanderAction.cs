@@ -14,6 +14,9 @@ public class WanderAction : AIAction
 
     protected override float Score(AIContext ctx)
     {
+        int radius = npcScript?.wanderRadius ?? 3;
+        if (radius <= 0) return 0f; // Don't wander if radius is 0 or less
+
         // Low constant score — always available as fallback
         return 0.2f;
     }
@@ -33,21 +36,20 @@ public class WanderAction : AIAction
         HexTile centerTile = npcScript?.homeTile ?? npcScript?.startingTile ?? actor.CurrentTile;
         int radius = npcScript?.wanderRadius ?? 3;
 
+        // If radius is 0 or less, don't wander at all
+        if (radius <= 0)
+            return new List<HexTile>();
+
         List<HexTile> validTiles = new List<HexTile>();
         HexGrid grid = actor.HexGrid;
 
-        // Get all tiles within radius
-        for (int q = -radius; q <= radius; q++)
+        // Get adjacent tiles that are within the allowed radius from center
+        List<HexTile> adjacent = grid.GetNeighbors(actor.CurrentTile);
+        foreach (HexTile neighbor in adjacent)
         {
-            int r1 = Mathf.Max(-radius, -q - radius);
-            int r2 = Mathf.Min(radius, -q + radius);
-            for (int r = r1; r <= r2; r++)
+            if (neighbor.isWalkable && grid.GetDistance(centerTile, neighbor) <= radius)
             {
-                Vector2Int axial = new Vector2Int(centerTile.hex.q + q, centerTile.hex.r + r);
-                if (grid.hexTiles.TryGetValue(axial, out HexTile tile) && tile.isWalkable && tile != actor.CurrentTile)
-                {
-                    validTiles.Add(tile);
-                }
+                validTiles.Add(neighbor);
             }
         }
 

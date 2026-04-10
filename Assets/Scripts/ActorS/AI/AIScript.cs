@@ -3,7 +3,7 @@ using UnityEngine;
 public class AIScript : ActorScript
 {
     [Header("AI Movement")]
-    [SerializeField] private float moveCooldown = 1f;
+    [SerializeField] protected float moveCooldown = 1f;
     private float lastMoveTime;
     protected Blackboard blackboard;
     protected GoalLayer goalLayer;

@@ -24,3 +24,13 @@ MonoBehaviour:
     - helped_hawa
     requireAllObjectives: 1
     questPriority: 0
+    wanderRadius: 0
+  - questName: Purpose
+    isActive: 0
+    gameStateKey: 
+    activationKey: helped_hawa
+    desiredItems: []
+    objectiveKeys: []
+    requireAllObjectives: 1
+    questPriority: 0
+    wanderRadius: 10

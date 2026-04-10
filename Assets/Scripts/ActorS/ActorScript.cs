@@ -113,6 +113,12 @@ public abstract class ActorScript : MonoBehaviour
         health -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. Health: {health}");
     }
+
+    public HexTile GetCurrentHexTile()
+    {
+        return currentTile;
+    }
+
     protected virtual void OnDestroy()
     {
         currentTile?.ClearActor();

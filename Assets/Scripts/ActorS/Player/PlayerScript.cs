@@ -22,6 +22,11 @@ public class PlayerScript : ActorScript
     private List<HexTile> currentPath = new List<HexTile>();
     private Coroutine pathCoroutine;
 
+    // Following system
+    private ActorScript followingNPC = null;
+    private float followCheckInterval = 0.5f;
+    private float lastFollowCheckTime;
+
     protected override void Start()
     {
         base.Start();
@@ -41,6 +46,7 @@ public class PlayerScript : ActorScript
     {
         HandleDirectionalInput();
         HandleClickInput();
+        HandleFollowing();
     }
 
     void HandleDirectionalInput()
@@ -64,12 +70,82 @@ public class PlayerScript : ActorScript
 
         Vector2 screenPos = Mouse.current.position.ReadValue();
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+
+        // Check if clicked on an NPC
+        ActorScript clickedNPC = GetNPCAtPosition(worldPos);
+        if (clickedNPC != null)
+        {
+            StartFollowing(clickedNPC);
+            return;
+        }
+
+        // Otherwise, pathfind to tile
         HexTile clicked = hexGrid.GetTileAtWorldPos(worldPos);
         if (clicked == null || !clicked.isWalkable) return;
 
+        StopFollowing();
         if (pathCoroutine != null) StopCoroutine(pathCoroutine);
         currentPath = Pathfinder.FindPath(hexGrid, currentTile, clicked);
         pathCoroutine = StartCoroutine(FollowPath());
+    }
+
+    ActorScript GetNPCAtPosition(Vector2 worldPos)
+    {
+        HexTile tile = hexGrid.GetTileAtWorldPos(worldPos);
+        if (tile != null && tile.occupiedByActor != null && tile.occupiedByActor != this && tile.occupiedByActor.GetComponent<DialogueTrigger>() != null)
+        {
+            return tile.occupiedByActor;
+        }
+        return null;
+    }
+
+    void StartFollowing(ActorScript npc)
+    {
+        StopFollowing();
+        followingNPC = npc;
+        lastFollowCheckTime = Time.time;
+    }
+
+    void StopFollowing()
+    {
+        followingNPC = null;
+        if (pathCoroutine != null) StopCoroutine(pathCoroutine);
+        currentPath.Clear();
+    }
+
+    void HandleFollowing()
+    {
+        if (followingNPC == null) return;
+        if (isMoving) return;
+
+        // Check periodically
+        if (Time.time - lastFollowCheckTime < followCheckInterval) return;
+        lastFollowCheckTime = Time.time;
+
+        // Check distance
+        HexTile npcTile = followingNPC.GetCurrentHexTile();
+        if (npcTile == null) { StopFollowing(); return; }
+
+        int distance = hexGrid.GetDistance(currentTile, npcTile);
+        if (distance <= 1)
+        {
+            // Close enough, initiate dialogue
+            DialogueTrigger trigger = followingNPC.GetComponent<DialogueTrigger>();
+            if (trigger != null)
+            {
+                trigger.Trigger();
+            }
+            StopFollowing();
+            return;
+        }
+
+        // Move towards NPC
+        if (pathCoroutine != null) StopCoroutine(pathCoroutine);
+        currentPath = Pathfinder.FindPath(hexGrid, currentTile, npcTile);
+        if (currentPath.Count > 0)
+        {
+            pathCoroutine = StartCoroutine(FollowPath());
+        }
     }
 
     IEnumerator FollowPath()
@@ -101,6 +177,10 @@ public class PlayerScript : ActorScript
         else if (x <  0 && y >  0)  axialOffset = new Vector2Int( -1, 0);  // NW (Q key)
         else return;
 
+        // Always face the direction, even if can't move
+        facingDirection = axialOffset;
+        RotateTowards(facingDirection);
+
         Vector2Int targetAxial = currentTile.hex.axial + axialOffset;
         if (hexGrid.hexTiles.TryGetValue(targetAxial, out HexTile tile) && tile.isWalkable)
             MoveToTile(tile);
@@ -110,7 +190,6 @@ public class PlayerScript : ActorScript
     {
         menuPanel.ClearButtons();
         menuPanel.AddButton("Resume",   () => UIManager.Instance.CloseTopPanel());
-        menuPanel.AddButton("Settings", () => UIManager.Instance.OpenPanel(settingsPanel));
         // menuPanel.AddButton("Inventory",() => UIManager.Instance.OpenPanel(inventoryPanel));
         menuPanel.AddButton("Quit",     () => Application.Quit());
         UIManager.Instance.OpenPanel(menuPanel);

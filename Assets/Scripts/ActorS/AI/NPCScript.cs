@@ -9,6 +9,7 @@ public class NPCScript : AIScript
     [Header("NPC Settings")]
     [SerializeField] private float detectionRange = 5f;
     [SerializeField] private int defaultWanderRadius = 3; // Fallback if no personality
+    [SerializeField] private float npcMoveCooldown = 3f; // Delay between movements to allow conversation
     [SerializeField] public HexTile homeTile; // Optional: specific home tile
 
     public int wanderRadius
@@ -30,6 +31,7 @@ public class NPCScript : AIScript
     {
         base.Start();
         startingTile = currentTile; // Record starting position
+        this.moveCooldown = npcMoveCooldown; // Apply the configured cooldown
     }
 
     protected override void Update()
@@ -51,7 +53,11 @@ public class NPCScript : AIScript
         // Core actions - personality-driven
         if (personality != null)
         {
-            layer.AddAction(new TrackItemAction(this, blackboard, goalLayer, personality));
+            // Only add TrackItemAction if the NPC has items to track
+            if (personality.GetActiveDesiredItems().Length > 0)
+            {
+                layer.AddAction(new TrackItemAction(this, blackboard, goalLayer, personality));
+            }
             layer.AddAction(new MonitorObjectiveAction(this, blackboard, goalLayer, personality));
         }
         
