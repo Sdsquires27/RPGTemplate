@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: FinalDialogue
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
-  conditions: []
+  lines:
+  - speakerName: Rebecca
+    text: We must continue pressing onward, even in the face of difficulty.
+    responses: []
+  conditions:
+  - variableName: told_about_ink
+    type: 0
+    intValue: 0
+    boolValue: 1
   priority: 0
   onComplete: []

@@ -12,7 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: OnInk
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
-  conditions: []
-  priority: 0
-  onComplete: []
+  lines:
+  - speakerName: Rebecca
+    text: Another tip. There's some ink on the eastern side of this island, if you
+      care to venture that far.
+    responses: []
+  - speakerName: Abram
+    text: Thanks for letting me know.
+    responses: []
+  conditions:
+  - variableName: asked_why_are_we_here
+    type: 0
+    intValue: 0
+    boolValue: 1
+  - variableName: asked_what_to_do
+    type: 0
+    intValue: 0
+    boolValue: 1
+  - variableName: asked_about_hawa
+    type: 0
+    intValue: 0
+    boolValue: 1
+  - variableName: told_about_ink
+    type: 0
+    intValue: 0
+    boolValue: 0
+  priority: 20
+  onComplete:
+  - type: 0
+    variableName: told_about_ink
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}
