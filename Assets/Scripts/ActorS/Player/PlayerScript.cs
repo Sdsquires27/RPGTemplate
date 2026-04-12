@@ -68,6 +68,9 @@ public class PlayerScript : ActorScript
     {
         if (!clickAction.WasPressedThisFrame()) return;
 
+        // Don't handle click-to-move if any UI panels are open
+        if (UIManager.Instance.isAnyPanelOpen) return;
+
         Vector2 screenPos = Mouse.current.position.ReadValue();
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
 

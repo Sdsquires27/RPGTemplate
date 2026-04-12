@@ -30,10 +30,11 @@ MonoBehaviour:
   - variableName: told_of_others
     type: 0
     intValue: 0
-    boolValue: 0
+    boolValue: 1
   priority: 10
   onComplete:
   - type: 0
     variableName: AfterTold
     intValue: 0
     boolValue: 1
+    item: {fileID: 0}

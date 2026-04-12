@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635618fd1cbdf814cbc160100413fb9c, type: 3}
   m_Name: TellOfOthers
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
-  responseText: I've already met the others.
+  responseText: Tell Of Others
   conditions:
   - variableName: met_hawa
     type: 0

@@ -23,11 +23,12 @@ public class ResponsePanel : MonoBehaviour
         onSelected = callback;
         ClearButtons();
 
-        Debug.Log($"[ResponsePanel] Showing {responses.Length} responses");
+        Debug.Log($"[ResponsePanel] Show() called with {responses.Length} responses");
 
         int buttonCount = 0;
         foreach (var response in responses)
         {
+            Debug.Log($"  [ResponsePanel] Checking response: '{response.responseText}' - ConditionsMet={response.ConditionsMet()}");
             if (!response.ConditionsMet()) continue;
 
             GameObject go = Instantiate(buttonPrefab, buttonContainer);
@@ -39,13 +40,15 @@ public class ResponsePanel : MonoBehaviour
             }
             btn.Setup(response, this);
             buttons.Add(btn);
+            Debug.Log($"[ResponsePanel] Created button #{buttonCount}: '{response.responseText}'");
             buttonCount++;
         }
 
-        Debug.Log($"[ResponsePanel] Created {buttonCount} valid response buttons");
+        Debug.Log($"[ResponsePanel] Show() complete: created {buttonCount} valid response buttons");
         selectedIndex = 0;
         HighlightSelected();
         gameObject.SetActive(true);
+        Debug.Log($"[ResponsePanel] GameObject activated, selectedIndex={selectedIndex}, buttons.Count={buttons.Count}");
     }
 
     public void Hide()
@@ -68,15 +71,24 @@ public class ResponsePanel : MonoBehaviour
         // Keyboard navigation
         if (UnityEngine.InputSystem.Keyboard.current.downArrowKey.wasPressedThisFrame ||
             UnityEngine.InputSystem.Gamepad.current?.leftStick.down.wasPressedThisFrame == true)
+        {
+            Debug.Log("[ResponsePanel] Down arrow pressed");
             NavigateDown();
+        }
 
         if (UnityEngine.InputSystem.Keyboard.current.upArrowKey.wasPressedThisFrame ||
             UnityEngine.InputSystem.Gamepad.current?.leftStick.up.wasPressedThisFrame == true)
+        {
+            Debug.Log("[ResponsePanel] Up arrow pressed");
             NavigateUp();
+        }
 
         if (UnityEngine.InputSystem.Keyboard.current.enterKey.wasPressedThisFrame ||
             UnityEngine.InputSystem.Gamepad.current?.buttonSouth.wasPressedThisFrame == true)
+        {
+            Debug.Log("[ResponsePanel] Enter/Confirm pressed");
             ConfirmSelection();
+        }
 
         // Mouse detection (hover + click)
         HandleMouseInput();
@@ -133,7 +145,12 @@ public class ResponsePanel : MonoBehaviour
 
     void ConfirmSelection()
     {
-        if (buttons.Count == 0) return;
+        if (buttons.Count == 0)
+        {
+            Debug.Log("[ResponsePanel] ConfirmSelection called but buttons.Count == 0");
+            return;
+        }
+        Debug.Log($"[ResponsePanel] ConfirmSelection: selectedIndex={selectedIndex}, button={buttons[selectedIndex].response.responseText}");
         SelectResponse(buttons[selectedIndex].response);
     }
 

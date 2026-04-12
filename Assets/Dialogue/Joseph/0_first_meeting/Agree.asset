@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635618fd1cbdf814cbc160100413fb9c, type: 3}
   m_Name: Agree
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
-  responseText: Will do.
+  responseText: Agree
   conditions: []
   followUp: {fileID: 11400000, guid: cc2a0f20391d8234a85bd2e03249da3f, type: 2}
   onSelected: []

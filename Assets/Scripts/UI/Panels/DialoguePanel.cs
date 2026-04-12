@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DialoguePanel : UIPanel
 {
@@ -14,6 +15,7 @@ public class DialoguePanel : UIPanel
     private int currentLineIndex;
     private bool waitingForInput = false;
     private bool waitingForResponse = false;
+    private Stack<(DialogueData dialogue, int lineIndex)> dialogueStack = new Stack<(DialogueData, int)>();
 
     public void StartDialogue(DialogueData dialogue)
     {
@@ -35,103 +37,153 @@ public class DialoguePanel : UIPanel
     {
         waitingForInput = false;
         waitingForResponse = false;
-        StartCoroutine(WaitForInput());
     }
 
-    protected override void OnClose()
+protected override void OnClose()
+{
+    StopAllCoroutines();
+    responsePanel.Hide();
+    currentDialogue = null;
+    rootDialogue = null;
+    currentLineIndex = 0;
+    dialogueStack.Clear(); // Add this
+    waitingForInput = false;
+    waitingForResponse = false;
+}
+
+void ShowCurrentLine()
+{
+    gameObject.SetActive(true);
+    responsePanel.Hide();
+
+    var line = currentDialogue.lines[currentLineIndex];
+    speakerText.text = line.speakerName;
+    dialogueText.text = line.text;
+
+    var validResponses = line.responses != null
+        ? System.Array.FindAll(line.responses, r => r.ConditionsMet())
+        : new DialogueResponse[0];
+
+    if (validResponses.Length > 0)
     {
-        StopAllCoroutines();
-        responsePanel.Hide();
-        currentDialogue = null;
-        rootDialogue = null;
-        currentLineIndex = 0;
         waitingForInput = false;
         waitingForResponse = false;
+        StopAllCoroutines();
+        StartCoroutine(WaitThenShowResponses(validResponses));
     }
-
-    void ShowCurrentLine()
+    else
     {
-        var line = currentDialogue.lines[currentLineIndex];
-        speakerText.text = line.speakerName;
-        dialogueText.text = line.text;
-
-        if (line.HasResponses)
-        {
-            // Filter to only responses whose conditions are met
-            waitingForResponse = true;
-            waitingForInput = false;
-            responsePanel.Show(line.responses, OnResponseSelected);
-        }
-        else
-        {
-            waitingForInput = true;
-            waitingForResponse = false;
-        }
-    }
-
-IEnumerator WaitForInput()
-{
-    yield return null;
-
-    while (isOpen)
-    {
-        if (waitingForInput && !waitingForResponse &&
-            UnityEngine.InputSystem.Keyboard.current.anyKey.wasPressedThisFrame)
-            AdvanceDialogue();
-
-        yield return null;
+        waitingForInput = true;
+        waitingForResponse = false;
+        gameObject.SetActive(true);
+        responsePanel.Hide();
+        StopAllCoroutines();
+        StartCoroutine(WaitForInput());
     }
 }
 
-    void AdvanceDialogue()
-    {
-        waitingForInput = false;
-        currentLineIndex++;
+IEnumerator WaitThenShowResponses(DialogueResponse[] validResponses)
+{
+    // Show the dialogue line and wait for a keypress before showing responses
+    yield return null;
+    yield return null;
 
-        if (currentLineIndex >= currentDialogue.lines.Length)
+    var keyboard = UnityEngine.InputSystem.Keyboard.current;
+    while (true)
+    {
+        if (keyboard.spaceKey.wasPressedThisFrame ||
+            keyboard.enterKey.wasPressedThisFrame ||
+            keyboard.escapeKey.wasPressedThisFrame)
+            break;
+        yield return null;
+    }
+
+    waitingForResponse = true;
+    gameObject.SetActive(false);
+    responsePanel.Show(validResponses, OnResponseSelected);
+}
+
+IEnumerator WaitForInput()
+{
+    Debug.Log($"[DialoguePanel] WaitForInput coroutine started");
+    yield return null; // skip the frame the coroutine was started on
+    yield return null; // skip one more frame as a buffer against carry-over input
+
+    while (isOpen)
+    {
+        Debug.Log($"[DialoguePanel] Coroutine loop: isOpen={isOpen}, waitingForInput={waitingForInput}, waitingForResponse={waitingForResponse}");
+        
+        if (waitingForInput && !waitingForResponse)
         {
-            // Dialogue chain complete - apply ROOT dialogue's state changes
-            Debug.Log($"[DialoguePanel] Dialogue chain complete. Applying '{rootDialogue.name}' onComplete ({rootDialogue.onComplete.Length} entries)");
-            for (int i = 0; i < rootDialogue.onComplete.Length; i++)
+            var keyboard = UnityEngine.InputSystem.Keyboard.current;
+            if (keyboard == null)
             {
-                var change = rootDialogue.onComplete[i];
-                Debug.Log($"[DialoguePanel] Change #{i}: {change.type} - varName='{change.variableName}' boolVal={change.boolValue} intVal={change.intValue}");
+                Debug.LogWarning("[DialoguePanel] Keyboard.current is null!");
+                yield return null;
+                continue;
             }
+            
+            // Check for specific keys instead of anyKey
+            bool spacePressed = keyboard.spaceKey.wasPressedThisFrame;
+            bool enterPressed = keyboard.enterKey.wasPressedThisFrame;
+            bool escPressed = keyboard.escapeKey.wasPressedThisFrame;
+            
+            Debug.Log($"[DialoguePanel] Key states - Space: {spacePressed}, Enter: {enterPressed}, Esc: {escPressed}");
+            
+            if (spacePressed || enterPressed || escPressed)
+            {
+                Debug.Log($"[DialoguePanel] Key pressed, advancing dialogue");
+                AdvanceDialogue();
+            }
+        }
+
+        yield return null;
+    }
+    Debug.Log($"[DialoguePanel] WaitForInput coroutine ended (isOpen={isOpen})");
+}
+
+void AdvanceDialogue()
+{
+    waitingForInput = false;
+    currentLineIndex++;
+
+    while (currentLineIndex >= currentDialogue.lines.Length)
+    {
+        if (dialogueStack.Count > 0)
+        {
+            var (parentDialogue, returnIndex) = dialogueStack.Pop();
+            currentDialogue = parentDialogue;
+            currentLineIndex = returnIndex;
+            // loop again to check if the parent is also exhausted
+        }
+        else
+        {
             rootDialogue.ApplyStateChanges();
-            Debug.Log("[DialoguePanel] GameState after ApplyStateChanges:");
-            GameState.PrintDebug();
             UIManager.Instance.CloseTopPanel();
             rootDialogue = null;
             return;
         }
+    }
 
+    ShowCurrentLine();
+}
+
+void OnResponseSelected(DialogueResponse response)
+{
+    waitingForResponse = false;
+    response.Apply();
+
+    if (response.followUp != null)
+    {
+        // Push current position so we can return to it
+        dialogueStack.Push((currentDialogue, currentLineIndex + 1));
+        currentDialogue = response.followUp;
+        currentLineIndex = 0;
         ShowCurrentLine();
     }
-
-    void OnResponseSelected(DialogueResponse response)
+    else
     {
-        waitingForResponse = false;
-
-        // Apply response state changes IMMEDIATELY
-        Debug.Log($"[DialoguePanel] Response selected: '{response.responseText}'");
-        Debug.Log($"[DialoguePanel] Applying {response.onSelected.Length} response state changes");
-        response.Apply();
-        Debug.Log("[DialoguePanel] Response state changes applied. GameState:");
-        GameState.PrintDebug();
-
-        if (response.followUp != null)
-        {
-            Debug.Log($"[DialoguePanel] Response has followUp dialogue, switching to it");
-            // Switch to follow-up dialogue
-            currentDialogue = response.followUp;
-            currentLineIndex = 0;
-            ShowCurrentLine();
-        }
-        else
-        {
-            Debug.Log($"[DialoguePanel] Response has no followUp, advancing dialogue");
-            // No follow-up — advance to next line or end
-            AdvanceDialogue();
-        }
+        AdvanceDialogue();
     }
+}
 }

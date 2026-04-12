@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635618fd1cbdf814cbc160100413fb9c, type: 3}
   m_Name: Disagree
   m_EditorClassIdentifier: Assembly-CSharp::DialogueResponse
-  responseText: I can't promise anything.
+  responseText: Disagree
   conditions: []
   followUp: {fileID: 11400000, guid: a7bb628e90ce4ad4082e7cb2e4ef20f9, type: 2}
   onSelected: []
