@@ -27,6 +27,12 @@ public class Inventory : MonoBehaviour
         item.data?.ApplyStateChanges(item.data.onDropped);
         return true;
     }
+    public bool Remove(Item item)
+    {
+        if (!heldItems.Contains(item)) return false;
+        heldItems.Remove(item);
+        return true;
+    }
 
     public Item GetFirstItem() => IsEmpty ? null : heldItems[0];
 }

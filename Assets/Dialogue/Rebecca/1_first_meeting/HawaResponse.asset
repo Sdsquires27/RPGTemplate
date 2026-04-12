@@ -17,9 +17,6 @@ MonoBehaviour:
     text: I met a woman named Hawa over there...
     responses: []
   - speakerName: Abram
-    text: I met a woman named Hawa over there...
-    responses: []
-  - speakerName: Abram
     text: She didn't respond to me.
     responses: []
   - speakerName: Abram

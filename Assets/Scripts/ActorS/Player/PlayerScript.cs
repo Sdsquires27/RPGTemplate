@@ -38,6 +38,13 @@ public class PlayerScript : ActorScript
         // Enable the action map
         playerInput.actions.FindActionMap("Player").Enable();
 
+        GameServices.Register(
+            GetComponent<Rigidbody2D>(),
+            GetComponent<PlayerInput>(),
+            GetComponent<IInputHandler>(), // or whatever implements IInputHandler
+            GetComponent<Inventory>()
+        );
+
     }
 
     

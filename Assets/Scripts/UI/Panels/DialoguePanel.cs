@@ -105,20 +105,17 @@ IEnumerator WaitThenShowResponses(DialogueResponse[] validResponses)
 
 IEnumerator WaitForInput()
 {
-    Debug.Log($"[DialoguePanel] WaitForInput coroutine started");
     yield return null; // skip the frame the coroutine was started on
     yield return null; // skip one more frame as a buffer against carry-over input
 
     while (isOpen)
     {
-        Debug.Log($"[DialoguePanel] Coroutine loop: isOpen={isOpen}, waitingForInput={waitingForInput}, waitingForResponse={waitingForResponse}");
         
         if (waitingForInput && !waitingForResponse)
         {
             var keyboard = UnityEngine.InputSystem.Keyboard.current;
             if (keyboard == null)
             {
-                Debug.LogWarning("[DialoguePanel] Keyboard.current is null!");
                 yield return null;
                 continue;
             }
@@ -128,18 +125,15 @@ IEnumerator WaitForInput()
             bool enterPressed = keyboard.enterKey.wasPressedThisFrame;
             bool escPressed = keyboard.escapeKey.wasPressedThisFrame;
             
-            Debug.Log($"[DialoguePanel] Key states - Space: {spacePressed}, Enter: {enterPressed}, Esc: {escPressed}");
             
             if (spacePressed || enterPressed || escPressed)
             {
-                Debug.Log($"[DialoguePanel] Key pressed, advancing dialogue");
                 AdvanceDialogue();
             }
         }
 
         yield return null;
     }
-    Debug.Log($"[DialoguePanel] WaitForInput coroutine ended (isOpen={isOpen})");
 }
 
 void AdvanceDialogue()

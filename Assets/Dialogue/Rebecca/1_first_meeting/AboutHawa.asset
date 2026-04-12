@@ -17,15 +17,15 @@ MonoBehaviour:
   - variableName: met_hawa
     type: 0
     intValue: 0
-    boolValue: 0
-  - variableName: asked_about_hawa
+    boolValue: 1
+  - variableName: talked_rebecca_about_hawa
     type: 0
     intValue: 0
     boolValue: 0
-  followUp: {fileID: 0}
+  followUp: {fileID: 11400000, guid: c3785d5888987984ba19745cedcb2ac3, type: 2}
   onSelected:
   - type: 0
-    variableName: asked_about_hawa
+    variableName: talked_rebecca_about_hawa
     intValue: 0
     boolValue: 1
     item: {fileID: 0}
