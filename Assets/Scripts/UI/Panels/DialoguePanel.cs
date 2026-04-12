@@ -10,13 +10,22 @@ public class DialoguePanel : UIPanel
     [SerializeField] private ResponsePanel responsePanel;
 
     private DialogueData currentDialogue;
+    private DialogueData rootDialogue; // Store the original dialogue to apply its onComplete at the end
     private int currentLineIndex;
     private bool waitingForInput = false;
     private bool waitingForResponse = false;
 
     public void StartDialogue(DialogueData dialogue)
     {
+        Debug.Log($"[DialoguePanel] StartDialogue called with: {dialogue.name}");
+        Debug.Log($"[DialoguePanel] DialogueData has {dialogue.onComplete.Length} onComplete entries");
+        for (int i = 0; i < dialogue.onComplete.Length; i++)
+        {
+            Debug.Log($"  [{i}] {dialogue.onComplete[i].type} - {dialogue.onComplete[i].variableName}");
+        }
+
         currentDialogue = dialogue;
+        rootDialogue = dialogue; // Store root for later
         currentLineIndex = 0;
         UIManager.Instance.OpenPanel(this);
         ShowCurrentLine();
@@ -34,6 +43,7 @@ public class DialoguePanel : UIPanel
         StopAllCoroutines();
         responsePanel.Hide();
         currentDialogue = null;
+        rootDialogue = null;
         currentLineIndex = 0;
         waitingForInput = false;
         waitingForResponse = false;
@@ -80,8 +90,18 @@ IEnumerator WaitForInput()
 
         if (currentLineIndex >= currentDialogue.lines.Length)
         {
-            currentDialogue.ApplyStateChanges();
+            // Dialogue chain complete - apply ROOT dialogue's state changes
+            Debug.Log($"[DialoguePanel] Dialogue chain complete. Applying '{rootDialogue.name}' onComplete ({rootDialogue.onComplete.Length} entries)");
+            for (int i = 0; i < rootDialogue.onComplete.Length; i++)
+            {
+                var change = rootDialogue.onComplete[i];
+                Debug.Log($"[DialoguePanel] Change #{i}: {change.type} - varName='{change.variableName}' boolVal={change.boolValue} intVal={change.intValue}");
+            }
+            rootDialogue.ApplyStateChanges();
+            Debug.Log("[DialoguePanel] GameState after ApplyStateChanges:");
+            GameState.PrintDebug();
             UIManager.Instance.CloseTopPanel();
+            rootDialogue = null;
             return;
         }
 
@@ -92,11 +112,16 @@ IEnumerator WaitForInput()
     {
         waitingForResponse = false;
 
-        // Apply response state changes
+        // Apply response state changes IMMEDIATELY
+        Debug.Log($"[DialoguePanel] Response selected: '{response.responseText}'");
+        Debug.Log($"[DialoguePanel] Applying {response.onSelected.Length} response state changes");
         response.Apply();
+        Debug.Log("[DialoguePanel] Response state changes applied. GameState:");
+        GameState.PrintDebug();
 
         if (response.followUp != null)
         {
+            Debug.Log($"[DialoguePanel] Response has followUp dialogue, switching to it");
             // Switch to follow-up dialogue
             currentDialogue = response.followUp;
             currentLineIndex = 0;
@@ -104,6 +129,7 @@ IEnumerator WaitForInput()
         }
         else
         {
+            Debug.Log($"[DialoguePanel] Response has no followUp, advancing dialogue");
             // No follow-up — advance to next line or end
             AdvanceDialogue();
         }

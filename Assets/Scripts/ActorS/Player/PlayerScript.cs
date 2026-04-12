@@ -201,6 +201,10 @@ public class PlayerScript : ActorScript
 
         if (UnityEngine.InputSystem.Keyboard.current.fKey.wasPressedThisFrame)
             TryInteract();
+
+        // Debug: Print GameState with Tilde (~) key
+        if (UnityEngine.InputSystem.Keyboard.current.backquoteKey.wasPressedThisFrame)
+            GameState.PrintDebug();
     }
 
 void TryInteract()

@@ -60,4 +60,59 @@ public static class GameState
         bools.Clear();
         ints.Clear();
     }
+
+    // -------------------------------------------------------------------------
+    // Debugging
+    // -------------------------------------------------------------------------
+
+    public static void PrintDebug()
+    {
+        Debug.Log("=== GAMESTATE DEBUG ===");
+        
+        if (bools.Count == 0)
+            Debug.Log("  [Booleans] (none)");
+        else
+        {
+            Debug.Log("  [Booleans]");
+            foreach (var kvp in bools)
+                Debug.Log($"    {kvp.Key} = {kvp.Value}");
+        }
+
+        if (ints.Count == 0)
+            Debug.Log("  [Integers] (none)");
+        else
+        {
+            Debug.Log("  [Integers]");
+            foreach (var kvp in ints)
+                Debug.Log($"    {kvp.Key} = {kvp.Value}");
+        }
+
+        Debug.Log($"Total: {bools.Count} bools, {ints.Count} ints");
+        Debug.Log("======================");
+    }
+
+    public static string GetDebugString()
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine("=== GAMESTATE DEBUG ===");
+        
+        sb.AppendLine("[Booleans]");
+        if (bools.Count == 0)
+            sb.AppendLine("  (none)");
+        else
+            foreach (var kvp in bools)
+                sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
+
+        sb.AppendLine("[Integers]");
+        if (ints.Count == 0)
+            sb.AppendLine("  (none)");
+        else
+            foreach (var kvp in ints)
+                sb.AppendLine($"  {kvp.Key} = {kvp.Value}");
+
+        sb.AppendLine($"Total: {bools.Count} bools, {ints.Count} ints");
+        sb.AppendLine("======================");
+        
+        return sb.ToString();
+    }
 }

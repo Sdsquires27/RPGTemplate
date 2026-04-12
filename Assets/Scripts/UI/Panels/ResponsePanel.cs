@@ -23,16 +23,26 @@ public class ResponsePanel : MonoBehaviour
         onSelected = callback;
         ClearButtons();
 
+        Debug.Log($"[ResponsePanel] Showing {responses.Length} responses");
+
+        int buttonCount = 0;
         foreach (var response in responses)
         {
             if (!response.ConditionsMet()) continue;
 
             GameObject go = Instantiate(buttonPrefab, buttonContainer);
             ResponseButton btn = go.GetComponent<ResponseButton>();
+            if (btn == null)
+            {
+                Debug.LogError("[ResponsePanel] Button prefab missing ResponseButton script!");
+                continue;
+            }
             btn.Setup(response, this);
             buttons.Add(btn);
+            buttonCount++;
         }
 
+        Debug.Log($"[ResponsePanel] Created {buttonCount} valid response buttons");
         selectedIndex = 0;
         HighlightSelected();
         gameObject.SetActive(true);
@@ -55,6 +65,7 @@ public class ResponsePanel : MonoBehaviour
     {
         if (!gameObject.activeSelf || buttons.Count == 0) return;
 
+        // Keyboard navigation
         if (UnityEngine.InputSystem.Keyboard.current.downArrowKey.wasPressedThisFrame ||
             UnityEngine.InputSystem.Gamepad.current?.leftStick.down.wasPressedThisFrame == true)
             NavigateDown();
@@ -66,6 +77,46 @@ public class ResponsePanel : MonoBehaviour
         if (UnityEngine.InputSystem.Keyboard.current.enterKey.wasPressedThisFrame ||
             UnityEngine.InputSystem.Gamepad.current?.buttonSouth.wasPressedThisFrame == true)
             ConfirmSelection();
+
+        // Mouse detection (hover + click)
+        HandleMouseInput();
+    }
+
+    void HandleMouseInput()
+    {
+        Vector2 mousePos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+        
+        // Check which button is under the mouse
+        int hoveredButton = -1;
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            RectTransform rt = buttons[i].GetComponent<RectTransform>();
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, mousePos, null, out Vector2 localPoint))
+            {
+                if (rt.rect.Contains(localPoint))
+                {
+                    hoveredButton = i;
+                    break;
+                }
+            }
+        }
+
+        // Update highlight if hovering over a button
+        if (hoveredButton >= 0 && hoveredButton != selectedIndex)
+        {
+            selectedIndex = hoveredButton;
+            HighlightSelected();
+        }
+
+        // Detect click
+        if (!UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
+            return;
+
+        if (hoveredButton >= 0)
+        {
+            Debug.Log($"[ResponsePanel] Mouse clicked button #{hoveredButton}: {buttons[hoveredButton].response.responseText}");
+            SelectResponse(buttons[hoveredButton].response);
+        }
     }
 
     void NavigateDown()
@@ -95,11 +146,13 @@ public class ResponsePanel : MonoBehaviour
     public void OnButtonHovered(ResponseButton button)
     {
         selectedIndex = buttons.IndexOf(button);
+        Debug.Log($"[ResponsePanel] Button hovered, index: {selectedIndex}");
         HighlightSelected();
     }
 
     public void SelectResponse(DialogueResponse response)
     {
+        Debug.Log($"[ResponsePanel] Response selected: {response.responseText}");
         Hide();
         onSelected?.Invoke(response);
     }
