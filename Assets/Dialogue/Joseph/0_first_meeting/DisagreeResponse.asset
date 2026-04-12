@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: DisagreeResponse
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
+  - speakerName: Abram
+    text: I can't promise anything.
+    responses: []
   - speakerName: Joseph
     text: Hmm. We'll see about that.
     responses: []

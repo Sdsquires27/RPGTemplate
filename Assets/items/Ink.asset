@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8e58e43ac27424bba35ee85eed27b7, type: 3}
   m_Name: Ink
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: 
-  icon: {fileID: 0}
+  itemName: Ink
+  icon: {fileID: 7177831760212934264, guid: e7d306ce2bd8cf042871edebe0e037d2, type: 3}
   worldPrefab: {fileID: 0}
   onPickedUp: []
   onDropped: []

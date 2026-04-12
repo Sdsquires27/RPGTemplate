@@ -21,5 +21,16 @@ MonoBehaviour:
     type: 0
     intValue: 0
     boolValue: 1
+    requiredItem: {fileID: 0}
+  - variableName: given_paper
+    type: 0
+    intValue: 0
+    boolValue: 0
+    requiredItem: {fileID: 0}
+  - variableName: given_ink
+    type: 0
+    intValue: 0
+    boolValue: 0
+    requiredItem: {fileID: 0}
   priority: 0
   onComplete: []

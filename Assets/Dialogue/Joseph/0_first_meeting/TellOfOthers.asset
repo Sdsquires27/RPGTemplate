@@ -18,9 +18,16 @@ MonoBehaviour:
     type: 0
     intValue: 0
     boolValue: 1
+    requiredItem: {fileID: 0}
   - variableName: met_rebecca
     type: 0
     intValue: 0
     boolValue: 1
+    requiredItem: {fileID: 0}
   followUp: {fileID: 11400000, guid: ca742dcd3d19a7840be8b13b3e56d042, type: 2}
-  onSelected: []
+  onSelected:
+  - type: 0
+    variableName: told_of_others
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}

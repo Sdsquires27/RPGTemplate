@@ -12,7 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
   m_Name: give_ink
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  lines: []
-  conditions: []
-  priority: 0
-  onComplete: []
+  lines:
+  - speakerName: Abram
+    text: Here's some ink.
+    responses: []
+  - speakerName: Joseph
+    text: You found ink? That's excellent!
+    responses: []
+  - speakerName: Joseph
+    text: Thank you.
+    responses: []
+  conditions:
+  - variableName: ink
+    type: 6
+    intValue: 0
+    boolValue: 0
+    requiredItem: {fileID: 11400000, guid: 9df881d4fee4f4d42be919542f21e1fd, type: 2}
+  - variableName: told_of_others
+    type: 0
+    intValue: 0
+    boolValue: 1
+    requiredItem: {fileID: 0}
+  priority: 20
+  onComplete:
+  - type: 0
+    variableName: given_ink
+    intValue: 0
+    boolValue: 1
+    item: {fileID: 0}
+  - type: 5
+    variableName: 
+    intValue: 0
+    boolValue: 0
+    item: {fileID: 11400000, guid: 9df881d4fee4f4d42be919542f21e1fd, type: 2}

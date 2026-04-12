@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: AgreeResponse
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   lines:
+  - speakerName: Abram
+    text: I'll look around.
+    responses: []
   - speakerName: Joseph
     text: Excellent. Tell me what you learn.
     responses: []
