@@ -50,11 +50,13 @@ public class DialogueCondition
 [System.Serializable]
 public class DialogueStateChange
 {
-    public enum ChangeType { SetBool, SetInt, IncrementInt, DecrementInt, GiveItem, TakeItem  }
+    public enum ChangeType { SetBool, SetInt, IncrementInt, DecrementInt, GiveItem, TakeItem, LoadScene }
 
     public ChangeType type;
     public string variableName;
     public int intValue;
+    public string sceneName;
+
     public bool boolValue;
     public ItemData item;
 
@@ -79,7 +81,10 @@ public class DialogueStateChange
                 break;
             case ChangeType.TakeItem:
                 TakeItemFromPlayer();
-                break;        
+                break;       
+            case ChangeType.LoadScene:
+                LoadScene();
+                break; 
         }
     }
 
@@ -104,6 +109,12 @@ private void TakeItemFromPlayer()
     bool removed = inventory.Remove(heldItem);
     Debug.Log($"[TakeItem] removed from inventory: {removed}, destroying: {heldItem.gameObject.name}");
     Object.Destroy(heldItem.gameObject);
+}
+
+private void LoadScene()
+{
+    if (string.IsNullOrEmpty(sceneName)) { Debug.LogWarning("[LoadScene] sceneName is empty"); return; }
+    UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
 }
 
 private void GiveItemToPlayer()

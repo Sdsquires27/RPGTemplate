@@ -15,21 +15,15 @@ public class UIManager : MonoBehaviour
     public bool isAnyPanelOpen => panelStack.Count > 0;
 
     void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
+{
+    Instance = this;
+}
 
     void Start()
     {
-        // Make sure all panels start closed
         foreach (var panel in FindObjectsByType<UIPanel>(FindObjectsSortMode.None))
-            panel.gameObject.SetActive(false);
+            if (panel.hideOnStart)
+                panel.gameObject.SetActive(false);
     }
 
     // -------------------------------------------------------------------------

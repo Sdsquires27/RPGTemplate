@@ -8,4 +8,6 @@ public interface IInputHandler
     bool IsAttackPressed();
     bool IsCrouchPressed();
     bool IsInteractPressed();
+    void DisableInput();
+    void EnableInput();
 }

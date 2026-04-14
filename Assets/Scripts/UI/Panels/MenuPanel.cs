@@ -7,8 +7,9 @@ public class MenuPanel : UIPanel
 {
     [Header("References")]
     [SerializeField] private RectTransform buttonContainer;
+    [SerializeField] private RectTransform horizontalContainer;
     [SerializeField] private GameObject buttonPrefab;
-
+    [SerializeField] private GameObject labelPrefab;
     [Header("Navigation")]
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color selectedColor = Color.yellow;
@@ -28,11 +29,21 @@ public class MenuPanel : UIPanel
 
     public void AddButton(string label, System.Action onClick)
     {
-        GameObject go = Instantiate(buttonPrefab, buttonContainer);
+        SpawnButton(label, onClick, buttonPrefab, buttonContainer);
+    }
+
+    public void AddLabelButton(string label, System.Action onClick)
+    {
+        SpawnButton(label, onClick, labelPrefab, horizontalContainer);
+    }
+
+    private void SpawnButton(string label, System.Action onClick, GameObject prefab, RectTransform container)
+    {
+        GameObject go = Instantiate(prefab, container);
         MenuButton btn = go.GetComponent<MenuButton>();
         btn.Setup(label, onClick, this);
         buttons.Add(btn);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(buttonContainer);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(container);
     }
 
     public void ClearButtons()
@@ -41,6 +52,34 @@ public class MenuPanel : UIPanel
             Destroy(btn.gameObject);
         buttons.Clear();
     }
+
+    void HandleMouseInput()
+{
+    Vector2 mousePos = UnityEngine.InputSystem.Mouse.current.position.ReadValue();
+
+    int hoveredButton = -1;
+    for (int i = 0; i < buttons.Count; i++)
+    {
+        RectTransform rt = buttons[i].GetComponent<RectTransform>();
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, mousePos, null, out Vector2 localPoint))
+        {
+            if (rt.rect.Contains(localPoint))
+            {
+                hoveredButton = i;
+                break;
+            }
+        }
+    }
+
+    if (hoveredButton >= 0 && hoveredButton != selectedIndex)
+    {
+        selectedIndex = hoveredButton;
+        HighlightSelected();
+    }
+
+    if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame && hoveredButton >= 0)
+        buttons[hoveredButton].Click();
+}
 
     // -------------------------------------------------------------------------
     // Keyboard / Gamepad Navigation
@@ -61,6 +100,7 @@ public class MenuPanel : UIPanel
         if (UnityEngine.InputSystem.Keyboard.current.enterKey.wasPressedThisFrame ||
             UnityEngine.InputSystem.Gamepad.current?.buttonSouth.wasPressedThisFrame == true)
             ConfirmSelection();
+        HandleMouseInput();
     }
 
     void NavigateDown()

@@ -4,6 +4,9 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : IInputHandler
 {
     private PlayerInput playerInput;
+    private bool inputEnabled = true;
+
+
     private Vector2 moveDirection;
     private Vector2 lookDirection;
     private bool jumpPressed;
@@ -35,10 +38,12 @@ public class PlayerInputHandler : IInputHandler
     private void OnCrouch(InputAction.CallbackContext context) => crouchPressed = true;
     private void OnInteract(InputAction.CallbackContext context) => interactPressed = true;
 
-    public Vector2 GetMoveDirection() => moveDirection;
-    public Vector2 GetLookDirection() => lookDirection;
-    public bool IsJumpPressed() => jumpPressed;
-    public bool IsAttackPressed() => attackPressed;
-    public bool IsCrouchPressed() => crouchPressed;
-    public bool IsInteractPressed() => interactPressed;
+    public void DisableInput() => inputEnabled = false;
+    public void EnableInput() => inputEnabled = true;
+    public Vector2 GetMoveDirection() => inputEnabled ? moveDirection : Vector2.zero;
+    public Vector2 GetLookDirection() => inputEnabled ? lookDirection : Vector2.zero;
+    public bool IsJumpPressed() => inputEnabled && jumpPressed;
+    public bool IsAttackPressed() => inputEnabled && attackPressed;
+    public bool IsCrouchPressed() => inputEnabled && crouchPressed;
+    public bool IsInteractPressed() => inputEnabled && interactPressed;
 }

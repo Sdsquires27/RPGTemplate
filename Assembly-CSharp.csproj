@@ -68,12 +68,14 @@
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\AttackAction.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueTree.cs" />
     <Compile Include="Assets\Scripts\ActorS\Input\IPlayerInput.cs" />
+    <Compile Include="Assets\Scripts\Services\GameTimer.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\SeekItemAction.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\ChaseAction.cs" />
     <Compile Include="Assets\Scripts\TileScripts\Hex.cs" />
     <Compile Include="Assets\Scripts\UI\Panels\DialoguePanel.cs" />
     <Compile Include="Assets\Scripts\ActorS\ActorScript.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Quest\QuestState.cs" />
+    <Compile Include="Assets\Scripts\UI\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueData.cs" />
     <Compile Include="Assets\Scripts\UI\ResponseButton.cs" />
     <Compile Include="Assets\Scripts\ActorS\Player\PlayerScript.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Assets\Scripts\ActorS\Movement\Pathfinder.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Quest\PersonalityData.cs" />
     <Compile Include="Assets\Scripts\TileScripts\HexTile.cs" />
+    <Compile Include="Assets\Scripts\UI\Panels\DescriptionPanel.cs" />
     <Compile Include="Assets\Scripts\Debugging\LineManager.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Goals\AIGoal.cs" />
     <Compile Include="Assets\Scripts\Dialogue\DialogueTrigger.cs" />
@@ -92,8 +95,10 @@
     <Compile Include="Assets\Scripts\ActorS\AI\Strategic\StrategicDirective.cs" />
     <Compile Include="Assets\Scripts\TileScripts\SpriteOutline.cs" />
     <Compile Include="Assets\Scripts\Item\Item.cs" />
+    <Compile Include="Assets\Scripts\UI\ScreenFade.cs" />
     <Compile Include="Assets\Scripts\UI\Panels\ResponsePanel.cs" />
     <Compile Include="Assets\Scripts\ActorS\Input\PlayerInputHandler.cs" />
+    <Compile Include="Assets\Scripts\UI\TitleScreen.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Utility\Actions\MonitorObjectiveAction.cs" />
     <Compile Include="Assets\Scripts\Services\GameServices.cs" />
     <Compile Include="Assets\Scripts\ActorS\AI\Strategic\StrategicLayer.cs" />

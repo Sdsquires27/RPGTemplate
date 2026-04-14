@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
+  m_Name: BadEnding
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  lines:
+  - speakerName: ???
+    text: Time's up.
+    responses: []
+  - speakerName: ???
+    text: It... doesn't look like you did much.
+    responses: []
+  - speakerName: ???
+    text: Nobody has been helped, and nothing has been changed.
+    responses: []
+  - speakerName: ???
+    text: I'd encourage you to look around a little.
+    responses: []
+  - speakerName: ???
+    text: Talk to people. Try to help them a bit more.
+    responses: []
+  - speakerName: ???
+    text: There is much to be done.
+    responses: []
+  - speakerName: ???
+    text: Without your help, these people will not be able to survive here.
+    responses: []
+  conditions:
+  - variableName: helped_hawa
+    type: 0
+    intValue: 0
+    boolValue: 0
+    requiredItem: {fileID: 0}
+  - variableName: told_of_others
+    type: 0
+    intValue: 0
+    boolValue: 0
+    requiredItem: {fileID: 0}
+  priority: 100
+  onComplete:
+  - type: 6
+    variableName: 
+    intValue: 0
+    sceneName: TitleScene
+    boolValue: 0
+    item: {fileID: 0}

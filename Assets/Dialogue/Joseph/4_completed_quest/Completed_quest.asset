@@ -29,4 +29,10 @@ MonoBehaviour:
     boolValue: 1
     requiredItem: {fileID: 0}
   priority: 0
-  onComplete: []
+  onComplete:
+  - type: 0
+    variableName: finished_jacob_quest
+    intValue: 0
+    sceneName: 
+    boolValue: 1
+    item: {fileID: 0}

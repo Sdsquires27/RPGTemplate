@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9553968fb34b7e418df193cea5639b0, type: 3}
+  m_Name: MidEnding
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueData
+  lines:
+  - speakerName: ???
+    text: I appreciate what you have set out to do here.
+    responses: []
+  - speakerName: ???
+    text: You have helped the people here to an extent.
+    responses: []
+  - speakerName: ???
+    text: However, there is more work to be done.
+    responses: []
+  - speakerName: ???
+    text: There is a path through this.
+    responses: []
+  - speakerName: ???
+    text: You're going to have to work on it. Experiment.
+    responses: []
+  - speakerName: ???
+    text: I have given you what you need.
+    responses: []
+  - speakerName: ???
+    text: Try and figure out the next steps.
+    responses: []
+  conditions: []
+  priority: 0
+  onComplete:
+  - type: 6
+    variableName: 
+    intValue: 0
+    sceneName: TitleScene
+    boolValue: 0
+    item: {fileID: 0}
